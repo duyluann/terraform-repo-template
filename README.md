@@ -1,1 +1,1 @@
-# terraform-template
+# basic-terraform-template

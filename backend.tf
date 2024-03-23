@@ -1,6 +1,6 @@
 terraform {
   // local backend
-  backend "local" {} // local backend
+  backend "local" {}
 
   // aws s3 backend
   # backend "s3" {
