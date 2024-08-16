@@ -1,0 +1,24 @@
+{
+	"name": "My Terraform Workspace",
+	"build": {
+        "dockerfile": "Dockerfile"
+    },
+	"customizations": {
+		"vscode": {
+			"settings": {
+				"terminal.integrated.shell.linux": "/bin/bash"
+			},
+			"extensions": [
+				"BeardedBear.beardedtheme",
+				"PKief.material-icon-theme",
+				"streetsidesoftware.code-spell-checker",
+				"EditorConfig.EditorConfig",
+				"seatonjiang.gitmoji-vscode",
+				"hashicorp.hcl",
+				"hashicorp.terraform",
+				"esbenp.prettier-vscode"
+			]
+		}
+	},
+	"postCreateCommand": "aws --version && eksctl version && terraform -version"
+}
