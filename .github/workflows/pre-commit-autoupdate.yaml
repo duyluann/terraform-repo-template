@@ -1,0 +1,43 @@
+name: Pre-commit Check with Autoupdate
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  pre-commit-check:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+
+    - name: Install pre-commit
+      run: pip install pre-commit
+
+    - name: Auto-update pre-commit hooks
+      run: pre-commit autoupdate
+
+    - name: Check for changes
+      id: check_changes
+      run: |
+        git diff --exit-code || echo "Changes detected"
+        echo "changes=$(if git diff --quiet; then echo 'false'; else echo 'true'; fi)" >> $GITHUB_OUTPUT
+
+    - name: Create Pull Request
+      if: steps.check_changes.outputs.changes == 'true'
+      uses: peter-evans/create-pull-request@v6
+      with:
+        commit-message: 'chore: Update pre-commit hooks'
+        title: 'chore: Update pre-commit hooks'
+        branch: update-pre-commit-hooks
+        body: 'Automated pull request to update pre-commit hooks.'
