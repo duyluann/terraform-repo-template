@@ -13,6 +13,8 @@ jobs:
     - name: Set up tools
       run: |
         /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+        (echo; echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"') >> /home/runner/.bashrc
+        eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
         brew install hello
 
     - name: Cache pre-commit environment
