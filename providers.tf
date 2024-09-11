@@ -12,7 +12,7 @@ provider "aws" {
   region = var.region
   default_tags {
     tags = {
-      ManagedBy = "Terraform"
+      ManagedBy   = "Terraform"
       Environment = var.env
     }
   }
