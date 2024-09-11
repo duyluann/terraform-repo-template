@@ -1,4 +1,5 @@
 name: Pre-commit CI
+
 on:
   pull_request:
 
@@ -6,23 +7,23 @@ jobs:
   pre-commit:
     runs-on: ubuntu-latest
     container: duyl97/terraform-toolkit:main
+
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.WORKFLOW_TOKEN }}
 
-    - uses: actions/setup-python@v3
+      - name: Set up Python
+        uses: actions/setup-python@v3
 
-    # - uses: pre-commit/action@v3.0.1
-    #   continue-on-error: true
+      - name: Install pre-commit
+        run: pip install pre-commit
 
-    - name: Install pre-commit
-      run: pip install pre-commit
+      - name: Run pre-commit hooks
+        run: pre-commit run --all-files
 
-    - uses: actions/checkout@v3
-      with:
-        token: ${{ secrets.WORKFLOW_TOKEN}}
-
-    - name: Run pre-commit
-      run: pre-commit run --all-files
-
-    - uses: stefanzweifel/git-auto-commit-action@v5
-      with:
-        commit_message: "fix: Automated Changes by Pre-commit"
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "fix: Automated Changes by Pre-commit"
