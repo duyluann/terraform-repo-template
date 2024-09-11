@@ -30,6 +30,10 @@ jobs:
             docs
             ci
             chore
+            style
+            refactor
+            test
+            revert
           requireScope: false
           # Configure additional validation for the subject based on a regex.
           # This example ensures the subject starts with an uppercase character.
