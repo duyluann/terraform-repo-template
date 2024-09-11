@@ -13,8 +13,8 @@ jobs:
     - uses: actions/setup-python@v3
 
     - uses: pre-commit/action@v3.0.1
-      continue-on-error: true
 
     - uses: stefanzweifel/git-auto-commit-action@v5
+      if: always()
       with:
         commit_message: "fix: Automated Changes by Pre-commit"
