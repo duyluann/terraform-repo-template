@@ -5,6 +5,7 @@ on:
 jobs:
   pre-commit:
     runs-on: ubuntu-latest
+    container: duyl97/terraform-toolkit:main
     steps:
     - uses: actions/checkout@v3
       with:
