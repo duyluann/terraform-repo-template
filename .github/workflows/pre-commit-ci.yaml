@@ -19,6 +19,7 @@ jobs:
         brew install tflint
         brew install infracost
         brew install checkov
+        pip install pre-commit
 
     - name: Cache pre-commit environment
       uses: actions/cache@v3
@@ -29,8 +30,11 @@ jobs:
         restore-keys: |
           pre-commit-${{ runner.os }}-
 
-    - uses: pre-commit/action@v3.0.1
-
+    - name: Run pre-commit
+      run |
+        pre-commit install
+        pre-commit run --all-files
+        
     - uses: stefanzweifel/git-auto-commit-action@v5
       if: always()
       with:
