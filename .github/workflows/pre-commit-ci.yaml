@@ -15,7 +15,10 @@ jobs:
         /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
         (echo; echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"') >> /home/runner/.bashrc
         eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-        brew install hello
+        brew install terraform-docs
+        brew install tflint
+        brew install infracost
+        brew install checkov
 
     - name: Cache pre-commit environment
       uses: actions/cache@v3
