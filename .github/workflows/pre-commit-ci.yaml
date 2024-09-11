@@ -10,15 +10,10 @@ jobs:
       with:
         token: ${{ secrets.WORKFLOW_TOKEN }}
 
-    - uses: actions/setup-python@v3
-
-    - uses: terraform-linters/setup-tflint@v4
-
-    - uses: terraform-docs/gh-actions@v1.2.2
-
-    - uses: infracost/actions/setup@v3
-
-    - uses: bridgecrewio/checkov-action@v12
+    - name: Set up tools
+      run: |
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+        brew install hello
 
     - name: Cache pre-commit environment
       uses: actions/cache@v3
