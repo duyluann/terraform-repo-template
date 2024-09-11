@@ -82,13 +82,6 @@ To get started with development, you can use the pre-configured development cont
 - Environment Variables: The `environments/` directory contains environment-specific variable files (`.tfvars`).
 - Modules: Reusable Terraform modules are stored in the `modules/` directory.
 
-### 🔄 CI/CD
-
-This repository includes a GitHub Actions workflow to automatically validate and apply your Terraform configurations:
-
-- Terraform Validation: Automatically runs terraform validate on pull requests.
-- Stale Issues: Automatically marks issues and pull requests as stale after a period of inactivity.
-
 ### ✅ Pre-Commit Hooks
 
 Pre-commit hooks are set up to ensure code quality and consistency. To install the pre-commit hooks:
