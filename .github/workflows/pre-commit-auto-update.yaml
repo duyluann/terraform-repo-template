@@ -33,6 +33,17 @@ jobs:
         git diff --exit-code || echo "Changes detected"
         echo "changes=$(if git diff --quiet; then echo 'false'; else echo 'true'; fi)" >> $GITHUB_OUTPUT
 
+    - name: Get changelog of pre-commit updates
+      if: steps.check_changes.outputs.changes == 'true'
+      id: changelog
+      run: |
+        git diff | grep '^+' | grep -v '+++' | sed 's/^+//g' > changelog.txt
+        echo "changelog=$(cat changelog.txt)" >> $GITHUB_OUTPUT
+
+    - name: Get current date
+      id: date
+      run: echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
+
     - name: Create Pull Request
       if: steps.check_changes.outputs.changes == 'true'
       uses: peter-evans/create-pull-request@v7
@@ -43,8 +54,12 @@ jobs:
         signoff: false
         title: 'chore: Update pre-commit hooks'
         body: |
-          Update report
-          - Updated with *today's* date
-          - Automated changes by [create-pull-request](https://github.com/peter-evans/create-pull-request)
+          This PR contains automatic updates for pre-commit hooks:
+          - Pre-commit hooks were updated to their latest versions as of ${{ steps.date.outputs.date }}.
+          
+          ### Changelog:
+          ${{ steps.changelog.outputs.changelog }}
+
+          Please review the changes to ensure compatibility.
         branch: update-pre-commit-hooks
         base: main
