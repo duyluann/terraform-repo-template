@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [1.5.0](https://github.com/duyluann/terraform-repo-template/compare/v1.4.0...v1.5.0) (2024-09-12)
+
+
+### Features
+
+* configure terraform-docs ([#40](https://github.com/duyluann/terraform-repo-template/issues/40)) ([858ade9](https://github.com/duyluann/terraform-repo-template/commit/858ade92f5747ead9072320b5ce5ed6dc63c0789))
+
 # [1.4.0](https://github.com/duyluann/terraform-repo-template/compare/v1.3.0...v1.4.0) (2024-09-12)
 
 
