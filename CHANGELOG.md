@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [1.4.0](https://github.com/duyluann/terraform-repo-template/compare/v1.3.0...v1.4.0) (2024-09-12)
+
+
+### Features
+
+* configure checkov ([#39](https://github.com/duyluann/terraform-repo-template/issues/39)) ([5167b4d](https://github.com/duyluann/terraform-repo-template/commit/5167b4ddb3e2cb627b2ae0ec5766668d400f0705))
+
 # [1.3.0](https://github.com/duyluann/terraform-repo-template/compare/v1.2.0...v1.3.0) (2024-09-12)
 
 
