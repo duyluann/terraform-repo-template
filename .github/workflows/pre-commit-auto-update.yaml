@@ -1,6 +1,8 @@
 name: Pre-commit Check with Auto-update
 
 on:
+  schedule:
+    - cron: '0 0 * * 1' # Runs every Monday at midnight
   push:
     branches:
       - main
@@ -25,7 +27,6 @@ jobs:
       run: pip install pre-commit
 
     - name: Auto-update pre-commit hooks
-      id: autoupdate
       run: pre-commit autoupdate
 
     - name: Check for changes
