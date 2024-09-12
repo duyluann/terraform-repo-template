@@ -14,10 +14,6 @@ repos:
         args:
           - --args=--config=__GIT_WORKING_DIR__/.tflint.hcl
       - id: terraform_docs
-      - id: infracost_breakdown
-        args:
-          - --args=--path=.
-        verbose: true
       - id: terraform_checkov
         args:
           - --args=--config-file __GIT_WORKING_DIR__/.checkov.yml

@@ -35,11 +35,7 @@ jobs:
         arch: amd64
 
     - name: Install Checkov
-      uses: jaxxstorm/action-install-gh-release@v1.10.0
-      with:
-        repo: bridgecrewio/checkov
-        platform: linux
-        arch: amd64
+      run: pip install checkov
 
     - name: Install pre-commit
       run: pip install pre-commit
