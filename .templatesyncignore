@@ -1,6 +1,7 @@
 .github/ISSUE_TEMPLATE/issue_template.md
 environments/*
 modules/*
+.pre-commit-config.yaml
 .checkov.yml
 .editorconfig
 *.hcl
