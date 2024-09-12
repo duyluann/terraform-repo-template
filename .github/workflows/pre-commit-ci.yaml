@@ -10,16 +10,13 @@ jobs:
       with:
         token: ${{ secrets.WORKFLOW_TOKEN }}
 
-    - name: Set up tools
-      run: |
-        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-        (echo; echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"') >> /home/runner/.bashrc
-        eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-        brew install terraform-docs
-        brew install tflint
-        brew install infracost
-        brew install checkov
-        pip install pre-commit
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+
+    - name: Install pre-commit
+      run: pip install pre-commit
 
     - name: Cache pre-commit environment
       uses: actions/cache@v3
