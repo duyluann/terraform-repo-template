@@ -15,17 +15,20 @@ jobs:
       with:
         python-version: '3.10'
 
+    - name: Set up Terraform
+      uses: hashicorp/setup-terraform@v3
+
+    - uses: actions/cache@v4
+      name: Cache plugin dir
+      with:
+        path: ~/.tflint.d/plugins
+        key: ${{ runner.os }}-tflint-${{ hashFiles('.tflint.hcl') }}
+
+    - name: Setup TFLint
+      uses: terraform-linters/setup-tflint@v4
+
     - name: Install pre-commit
       run: pip install pre-commit
-
-    - name: Cache pre-commit environment
-      uses: actions/cache@v3
-      with:
-        path: |
-          ~/.cache/pre-commit
-        key: pre-commit-${{ runner.os }}-${{ hashFiles('.pre-commit-config.yaml') }}
-        restore-keys: |
-          pre-commit-${{ runner.os }}-
 
     - name: Run pre-commit
       run: |
