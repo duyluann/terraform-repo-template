@@ -1,3 +1,6 @@
 quiet: true
+framework:
+  - terraform
+  - terraform_plan
 # skip-check:
 #   - CKV_AWS_59 # SKIP: Ensure there is no open access to back-end resources through API
