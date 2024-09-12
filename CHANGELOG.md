@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [1.3.0](https://github.com/duyluann/terraform-repo-template/compare/v1.2.0...v1.3.0) (2024-09-12)
+
+
+### Features
+
+* configure infracost ([#38](https://github.com/duyluann/terraform-repo-template/issues/38)) ([9636d95](https://github.com/duyluann/terraform-repo-template/commit/9636d95ecf1977f9e55152f0c2f3228637fa9193))
+
 # [1.2.0](https://github.com/duyluann/terraform-repo-template/compare/v1.1.0...v1.2.0) (2024-09-12)
 
 
