@@ -1,0 +1,12 @@
+.github/ISSUE_TEMPLATE/issue_template.md
+environments/*
+modules/*
+.checkov.yml
+.editorconfig
+*.hcl
+*.tf
+README.md
+TF-DOCS.md
+LICENSE
+CODEOWNERS
+CHANGELOG.md
