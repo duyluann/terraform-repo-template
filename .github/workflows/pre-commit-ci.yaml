@@ -18,12 +18,6 @@ jobs:
     - name: Set up Terraform
       uses: hashicorp/setup-terraform@v3
 
-    - uses: actions/cache@v4
-      name: Cache plugin dir
-      with:
-        path: ~/.tflint.d/plugins
-        key: ${{ runner.os }}-tflint-${{ hashFiles('.tflint.hcl') }}
-
     - name: Setup TFLint
       uses: terraform-linters/setup-tflint@v4
 
