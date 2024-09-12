@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [1.6.0](https://github.com/duyluann/terraform-repo-template/compare/v1.5.0...v1.6.0) (2024-09-12)
+
+
+### Features
+
+* config template ignore ([#43](https://github.com/duyluann/terraform-repo-template/issues/43)) ([272568e](https://github.com/duyluann/terraform-repo-template/commit/272568e79298f2dffaffc938b9e5fef12bf4fbd5))
+
 # [1.5.0](https://github.com/duyluann/terraform-repo-template/compare/v1.4.0...v1.5.0) (2024-09-12)
 
 
