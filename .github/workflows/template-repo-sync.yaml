@@ -26,5 +26,7 @@ jobs:
           upstream_branch: main
           pr_labels: template_sync
           pr_title: 'chore: New changes from template repo'
-          pr_body: ✨ Hurray! There are new changes from the template repo. Merge ${SOURCE_REPO} ${TEMPLATE_GIT_HASH}
+          pr_body: |
+            ✨ Hurray! There are new changes from the template repo.
+            Merge ${SOURCE_REPO} with ${TEMPLATE_GIT_HASH}
           is_force_push_pr: true
