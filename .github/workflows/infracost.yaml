@@ -1,52 +1,45 @@
-name: Infracost
-
+name: Pre-commit CI
 on:
   pull_request:
 
 jobs:
-  infracost-pull-request-checks:
-    name: Infracost Pull Request Checks
+  pre-commit:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pull-requests: write
     steps:
-      - name: Setup Infracost
-        uses: infracost/actions/setup@v3
-        # See https://github.com/infracost/actions/tree/master/setup for other inputs
+      - uses: actions/checkout@v4
         with:
-          api-key: ${{ secrets.INFRACOST_API_KEY }}
+          token: ${{ secrets.WORKFLOW_TOKEN }}
 
-      # Checkout the base branch of the pull request (e.g. main/master).
-      - name: Checkout base branch
-        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
-          ref: "${{ github.event.pull_request.base.ref }}"
+          python-version: "3.10"
 
-      # Generate Infracost JSON file as the baseline.
-      - name: Generate Infracost cost estimate baseline
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Setup TFLint
+        uses: terraform-linters/setup-tflint@v4
+
+      - name: Install Terraform-docs
+        uses: jaxxstorm/action-install-gh-release@v1.12.0
+        with:
+          repo: terraform-docs/terraform-docs
+          platform: linux
+          arch: amd64
+
+      - name: Install Checkov
+        run: pip install checkov
+
+      - name: Install pre-commit
+        run: pip install pre-commit
+
+      - name: Run pre-commit
         run: |
-          infracost breakdown --path=. \
-                              --format=json \
-                              --out-file=/tmp/infracost-base.json
+          pre-commit install
+          pre-commit run --all-files
 
-      # Checkout the current PR branch so we can create a diff.
-      - name: Checkout PR branch
-        uses: actions/checkout@v4
-
-      # Generate an Infracost diff and save it to a JSON file.
-      - name: Generate Infracost diff
-        run: |
-          infracost diff --path=. \
-                          --format=json \
-                          --compare-to=/tmp/infracost-base.json \
-                          --out-file=/tmp/infracost.json
-
-      # See https://www.infracost.io/docs/features/cli_commands/#comment-on-pull-requests for other options.
-      - name: Post Infracost comment
-        run: |
-          infracost comment github --path=/tmp/infracost.json \
-                                   --repo=$GITHUB_REPOSITORY \
-                                   --github-token=${{ github.token }} \
-                                   --pull-request=${{ github.event.pull_request.number }} \
-                                   --behavior=update
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        if: always()
+        with:
+          commit_message: "fix: Automated Changes by Pre-commit"
