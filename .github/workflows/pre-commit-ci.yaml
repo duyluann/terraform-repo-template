@@ -6,40 +6,40 @@ jobs:
   pre-commit:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-      with:
-        token: ${{ secrets.WORKFLOW_TOKEN }}
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.WORKFLOW_TOKEN }}
 
-    - name: Set up Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.10'
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
 
-    - name: Set up Terraform
-      uses: hashicorp/setup-terraform@v3
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v3
 
-    - name: Setup TFLint
-      uses: terraform-linters/setup-tflint@v4
+      - name: Setup TFLint
+        uses: terraform-linters/setup-tflint@v4
 
-    - name: Install Terraform-docs
-      uses: jaxxstorm/action-install-gh-release@v1.12.0
-      with:
-        repo: terraform-docs/terraform-docs
-        platform: linux
-        arch: amd64
+      - name: Install Terraform-docs
+        uses: jaxxstorm/action-install-gh-release@v1.12.0
+        with:
+          repo: terraform-docs/terraform-docs
+          platform: linux
+          arch: amd64
 
-    - name: Install Checkov
-      run: pip install checkov
+      - name: Install Checkov
+        run: pip install checkov
 
-    - name: Install pre-commit
-      run: pip install pre-commit
+      - name: Install pre-commit
+        run: pip install pre-commit
 
-    - name: Run pre-commit
-      run: |
-        pre-commit install
-        pre-commit run --all-files
+      - name: Run pre-commit
+        run: |
+          pre-commit install
+          pre-commit run --all-files
 
-    - uses: stefanzweifel/git-auto-commit-action@v5
-      if: always()
-      with:
-        commit_message: "fix: Automated Changes by Pre-commit"
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        if: always()
+        with:
+          commit_message: "fix: Automated Changes by Pre-commit"
