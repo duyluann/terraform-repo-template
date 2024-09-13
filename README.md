@@ -1,6 +1,6 @@
 # 🚧 Terraform Project Template
 
-This repository provides a structured template for Terraform projects, enabling consistent and scalable infrastructure deployments. The template is equipped with best practices, CI/CD integration, and environment-specific configurations to streamline your infrastructure management.
+This repository provides a structured template for Terraform projects, enabling consistent and scalable infrastructure deployments. The template has best practices, CI/CD integration, and environment-specific configurations to streamline infrastructure management.
 
 ## 📁 Repository Structure
 
