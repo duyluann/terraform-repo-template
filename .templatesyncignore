@@ -1,4 +1,5 @@
 .github/ISSUE_TEMPLATE/issue_template.md
+.vscode/*
 environments/*
 modules/*
 .pre-commit-config.yaml
