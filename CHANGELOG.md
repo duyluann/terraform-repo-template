@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+# [1.7.0](https://github.com/duyluann/terraform-repo-template/compare/v1.6.0...v1.7.0) (2024-09-14)
+
+
+### Features
+
+* udpate devcontainer config ([1c978ac](https://github.com/duyluann/terraform-repo-template/commit/1c978acd63d0f1b4ec8d5f39c8c1ae974a73cb6b))
+* udpate devcontainer config ([ffad5ab](https://github.com/duyluann/terraform-repo-template/commit/ffad5abdb5264316046a32f6c966bf4290870aec))
+
 # [1.6.0](https://github.com/duyluann/terraform-repo-template/compare/v1.5.0...v1.6.0) (2024-09-12)
 
 
