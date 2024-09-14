@@ -1,15 +1,15 @@
 {
-	"name": "My Terraform Workspace",
-	"image": "duyluann/terraform-toolkit:latest",
-	"customizations": {
-	  "vscode": {
-		"settings": {
-		  "terminal.integrated.shell.linux": "/bin/bash"
-		}
-	  }
-	},
-	"mounts": [
-	  "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached"
+  "name": "My Terraform Workspace",
+  "image": "duyluann/terraform-toolkit:latest",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.shell.linux": "/bin/bash"
+      }
+    }
+  },
+  "mounts": [
+    "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached"
   ],
-	"postCreateCommand": "terraform -version"
-  }
+  "postCreateCommand": "terraform -version"
+}
