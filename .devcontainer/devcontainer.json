@@ -1,24 +1,15 @@
 {
 	"name": "My Terraform Workspace",
-	"build": {
-        "dockerfile": "Dockerfile"
-    },
+	"image": "duyluann/terraform-toolkit:latest",
 	"customizations": {
 		"vscode": {
 			"settings": {
 				"terminal.integrated.shell.linux": "/bin/bash"
-			},
-			"extensions": [
-				"BeardedBear.beardedtheme",
-				"PKief.material-icon-theme",
-				"streetsidesoftware.code-spell-checker",
-				"EditorConfig.EditorConfig",
-				"seatonjiang.gitmoji-vscode",
-				"hashicorp.hcl",
-				"hashicorp.terraform",
-				"esbenp.prettier-vscode"
-			]
+			}
 		}
 	},
-	"postCreateCommand": "aws --version && eksctl version && terraform -version"
+  "mounts": [
+    "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached"
+  ],
+	"postCreateCommand": "terraform -version"
 }
