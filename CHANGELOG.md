@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [1.8.0](https://github.com/duyluann/terraform-repo-template/compare/v1.7.0...v1.8.0) (2024-09-14)
+
+
+### Features
+
+* update devcontainer config ([e35f57a](https://github.com/duyluann/terraform-repo-template/commit/e35f57ad6a9218050a3746a14d61cbc34a154f59))
+
 # [1.7.0](https://github.com/duyluann/terraform-repo-template/compare/v1.6.0...v1.7.0) (2024-09-14)
 
 
