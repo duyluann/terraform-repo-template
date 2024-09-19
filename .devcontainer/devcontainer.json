@@ -4,12 +4,14 @@
   "customizations": {
     "vscode": {
       "settings": {
-        "terminal.integrated.shell.linux": "/bin/bash"
+        "terminal.integrated.shell.linux": "bash"
       }
     }
   },
-  "mounts": [
-    "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached"
-  ],
-  "postCreateCommand": "terraform -version"
+  "postStartCommand": {
+    "set-git-config-safe-directory": "git config --global --add safe.directory ${containerWorkspaceFolder}",
+  },
+  "postCreateCommand": "terraform -version",
+  "remoteUser": "terraform-user",
+  "containerUser": "terraform-user"
 }
