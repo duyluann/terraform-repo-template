@@ -10,8 +10,8 @@
   },
   "mounts": [
     "source=${localWorkspaceFolder},target=/app,type=bind",
-    "source=${env:HOME}/.ssh,target=/home/ubuntu/.ssh,type=bind,readonly",
-    "source=${env:HOME}/.gnupg,target=/home/ubuntu/.gnupg,type=bind,readonly"
+    "source=${env:HOME}/.ssh,target=/root/.ssh,type=bind,readonly",
+    "source=${env:HOME}/.gnupg,target=/root/.gnupg,type=bind,readonly"
   ],
   "postStartCommand": "git config --global --add safe.directory ${containerWorkspaceFolder}",
   "postCreateCommand": "terraform -version"
