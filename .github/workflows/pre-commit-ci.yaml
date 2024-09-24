@@ -1,6 +1,8 @@
 name: Pre-commit CI
 on:
   pull_request_target:
+  push:
+   branches: [test]
 
 jobs:
   pre-commit:
@@ -38,6 +40,7 @@ jobs:
           curl -sSL https://github.com/gitleaks/gitleaks/releases/download/$latest_version/gitleaks_${latest_version#v}_linux_x64.tar.gz -o $RUNNER_TEMP/gitleaks/gitleaks.tar.gz
           tar -xvzf $RUNNER_TEMP/gitleaks/gitleaks.tar.gz -C $RUNNER_TEMP/gitleaks
           sudo mv $RUNNER_TEMP/gitleaks/gitleaks /usr/local/bin/
+          echo $RUNNER_TEMP
 
       - name: Install pre-commit
         run: pip install pre-commit
