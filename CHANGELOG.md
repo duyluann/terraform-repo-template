@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.9.1](https://github.com/duyluann/terraform-repo-template/compare/v1.9.0...v1.9.1) (2024-09-24)
+
+
+### Bug Fixes
+
+* gitleaks in pre-commit ([#55](https://github.com/duyluann/terraform-repo-template/issues/55)) ([3e10677](https://github.com/duyluann/terraform-repo-template/commit/3e106779830d187c6c5ed60bf5069e0ed59a033f))
+
 # [1.9.0](https://github.com/duyluann/terraform-repo-template/compare/v1.8.0...v1.9.0) (2024-09-19)
 
 
