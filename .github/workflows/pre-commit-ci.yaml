@@ -44,7 +44,7 @@ jobs:
       - name: Run pre-commit
         run: |
           pre-commit install
-          pre-commit run --all-files
+          pre-commit run --all-files --exclude-paths 'gitleaks/*' --exclude 'gitleaks.tar.gz'
 
       - uses: stefanzweifel/git-auto-commit-action@v5
         if: always()
