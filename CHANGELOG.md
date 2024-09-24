@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [1.10.0](https://github.com/duyluann/terraform-repo-template/compare/v1.9.1...v1.10.0) (2024-09-24)
+
+
+### Features
+
+* Create GitLeaks workflow ([#56](https://github.com/duyluann/terraform-repo-template/issues/56)) ([993c555](https://github.com/duyluann/terraform-repo-template/commit/993c55508ea28e70466ac766eabb65c1fe93bad1))
+
 ## [1.9.1](https://github.com/duyluann/terraform-repo-template/compare/v1.9.0...v1.9.1) (2024-09-24)
 
 
