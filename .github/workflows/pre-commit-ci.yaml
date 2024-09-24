@@ -37,7 +37,6 @@ jobs:
           curl -sSL https://github.com/gitleaks/gitleaks/releases/download/$latest_version/gitleaks_${latest_version#v}_linux_x64.tar.gz -o gitleaks.tar.gz
           tar -xvzf gitleaks.tar.gz gitleaks
           sudo mv gitleaks /usr/local/bin/
-          rm -f gitleaks.tar.gz
 
       - name: Install pre-commit
         run: pip install pre-commit
