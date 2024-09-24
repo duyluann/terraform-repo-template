@@ -31,6 +31,13 @@ jobs:
       - name: Install Checkov
         run: pip install checkov
 
+      - name: Install GitLeaks
+        run: |
+          latest_version=$(curl -s https://api.github.com/repos/gitleaks/gitleaks/releases/latest | grep 'tag_name' | cut -d\" -f4)
+          curl -sSL https://github.com/gitleaks/gitleaks/releases/download/$latest_version/gitleaks_${latest_version#v}_linux_amd64.tar.gz -o gitleaks.tar.gz
+          tar -xvzf gitleaks.tar.gz gitleaks
+          sudo mv gitleaks /usr/local/bin/
+
       - name: Install pre-commit
         run: pip install pre-commit
 
