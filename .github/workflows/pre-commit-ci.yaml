@@ -1,9 +1,6 @@
 name: Pre-commit CI
 on:
   pull_request_target:
-  push:
-    branches:
-      - test
 
 jobs:
   pre-commit:
