@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [1.11.0](https://github.com/duyluann/terraform-repo-template/compare/v1.10.0...v1.11.0) (2025-01-18)
+
+
+### Features
+
+* Create update-license.yml ([1e5d1cc](https://github.com/duyluann/terraform-repo-template/commit/1e5d1cc8848760be4b2107046d308864c83f7fcd))
+
 # [1.10.0](https://github.com/duyluann/terraform-repo-template/compare/v1.9.1...v1.10.0) (2024-09-24)
 
 
