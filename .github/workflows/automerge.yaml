@@ -1,0 +1,22 @@
+name: Enable Auto-Merge for Bot PRs
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, labeled]
+
+jobs:
+  automerge:
+    runs-on: ubuntu-latest
+    if: |
+      github.actor == 'github-actions[bot]' &&
+      (
+        startsWith(github.head_ref, 'update-license-') ||
+        github.head_ref == 'update-pre-commit-hooks'
+      )
+    steps:
+      - name: Enable auto-merge
+        uses: peter-evans/enable-pull-request-automerge@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          merge-method: squash
+          pull-request-number: ${{ github.event.pull_request.number }}
