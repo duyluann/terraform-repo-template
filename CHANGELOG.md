@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [1.12.0](https://github.com/duyluann/terraform-repo-template/compare/v1.11.0...v1.12.0) (2025-07-20)
+
+
+### Features
+
+* Add GitHub Actions workflow for auto-merging bot PRs ([#93](https://github.com/duyluann/terraform-repo-template/issues/93)) ([0210285](https://github.com/duyluann/terraform-repo-template/commit/021028519b7c2fdf52cc6721078d0bb745577e07))
+
 # [1.11.0](https://github.com/duyluann/terraform-repo-template/compare/v1.10.0...v1.11.0) (2025-01-18)
 
 
