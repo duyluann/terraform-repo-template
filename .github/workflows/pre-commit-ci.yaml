@@ -19,7 +19,7 @@ jobs:
         uses: hashicorp/setup-terraform@v3
 
       - name: Setup TFLint
-        uses: terraform-linters/setup-tflint@v4
+        uses: terraform-linters/setup-tflint@v5
 
       - name: Install Terraform-docs
         uses: jaxxstorm/action-install-gh-release@v2.1.0
