@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.12.1](https://github.com/duyluann/terraform-repo-template/compare/v1.12.0...v1.12.1) (2025-08-13)
+
+
+### Bug Fixes
+
+* correct conditional logic for auto-merge PRs ([#98](https://github.com/duyluann/terraform-repo-template/issues/98)) ([de81fe8](https://github.com/duyluann/terraform-repo-template/commit/de81fe856027b5444763eec1c7c6a68cf5167323))
+
 # [1.12.0](https://github.com/duyluann/terraform-repo-template/compare/v1.11.0...v1.12.0) (2025-07-20)
 
 
