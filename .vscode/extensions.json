@@ -1,14 +1,13 @@
 {
     "recommendations": [
         "editorconfig.editorconfig",
-        "visualstudioexptteam.vscodeintellicode",
         "esbenp.prettier-vscode",
         "eamodio.gitlens",
         "streetsidesoftware.code-spell-checker",
         "4ops.terraform",
         "hashicorp.terraform",
-        "pkief.material-icon-theme",
-        "equinusocio.vsc-material-theme",
-        "shardulm94.trailing-spaces"
+        "shardulm94.trailing-spaces",
+        "raunofreiberg.vesper",
+        "miguelsolorio.symbols"
     ]
 }
