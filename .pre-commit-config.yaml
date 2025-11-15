@@ -1,22 +1,76 @@
+# Pre-commit hooks configuration
+# Best practice: Run automated checks before committing code
+
 repos:
+  # General hooks for file formatting
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v6.0.0
     hooks:
       - id: trailing-whitespace
+        name: Trim trailing whitespace
       - id: end-of-file-fixer
+        name: Fix end of files
       - id: check-yaml
+        name: Check YAML syntax
+      - id: check-added-large-files
+        name: Check for large files
+        args: ['--maxkb=1000']
+      - id: check-merge-conflict
+        name: Check for merge conflicts
+      - id: detect-private-key
+        name: Detect private keys
+
+  # Terraform-specific hooks
   - repo: https://github.com/antonbabenko/pre-commit-terraform
     rev: v1.103.0
     hooks:
       - id: terraform_fmt
+        name: Terraform format
+        description: Format Terraform files
+
       - id: terraform_validate
+        name: Terraform validate
+        description: Validate Terraform configuration
+
+      - id: terraform_docs
+        name: Terraform docs
+        description: Generate Terraform documentation
+        args:
+          - --hook-config=--path-to-file=README.md
+          - --hook-config=--add-to-existing-file=true
+          - --hook-config=--create-file-if-not-exist=true
+
       - id: terraform_tflint
+        name: TFLint
+        description: Lint Terraform files
         args:
           - --args=--config=__GIT_WORKING_DIR__/.tflint.hcl
+          - --args=--init
+
+      - id: terraform_tfsec
+        name: TFSec security scan
+        description: Security scanning with tfsec
+        args:
+          - --args=--config-file=__GIT_WORKING_DIR__/.tfsec.yml
+          - --args=--soft-fail
+
       - id: terraform_checkov
+        name: Checkov security scan
+        description: Security scanning with Checkov
         args:
           - --args=--config-file __GIT_WORKING_DIR__/.checkov.yml
+
+  # Secret detection
   - repo: https://github.com/gitleaks/gitleaks
     rev: v8.29.0
     hooks:
       - id: gitleaks
+        name: Gitleaks secret detection
+        description: Detect hardcoded secrets
+
+# Best practices:
+# 1. Keep hooks fast to avoid developer friction
+# 2. Auto-fix where possible (fmt, trailing-whitespace)
+# 3. Use --soft-fail for security tools during development
+# 4. Update hook versions regularly
+# 5. Document purpose of each hook

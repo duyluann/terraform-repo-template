@@ -1,0 +1,9 @@
+{
+  "severity_overrides": {},
+  "exclude": [],
+  "exclude_paths": [
+    ".terraform",
+    ".git"
+  ],
+  "minimum_severity": "MEDIUM"
+}

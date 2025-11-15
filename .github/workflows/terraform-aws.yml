@@ -3,19 +3,39 @@ name: Terraform CI/CD
 on:
   workflow_dispatch:
     inputs:
+      environment:
+        description: 'Environment to deploy'
+        required: true
+        type: choice
+        options:
+          - dev
+          - qa
+          - prod
       action:
         description: 'Action to perform'
         required: true
-        default: 'apply'
+        default: 'plan'
         type: choice
         options:
-        - apply
-        - destroy
+          - plan
+          - apply
+          - destroy
+
+# Use GitHub Environments for approval workflows
+# Configure these in Settings > Environments
+env:
+  TF_VERSION: '1.10.5'
 
 jobs:
   terraform:
-    name: Terraform
+    name: Terraform ${{ github.event.inputs.action }} - ${{ github.event.inputs.environment }}
     runs-on: ubuntu-latest
+
+    # Use GitHub environment protection rules
+    # This allows you to require approvals for production deployments
+    environment:
+      name: ${{ github.event.inputs.environment }}
+      # url will be populated with the outputs URL after deployment
 
     steps:
     - name: Checkout code
@@ -23,6 +43,8 @@ jobs:
 
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v3
+      with:
+        terraform_version: ${{ env.TF_VERSION }}
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v6
@@ -34,21 +56,55 @@ jobs:
     - name: Terraform Init
       run: terraform init
 
-    - name: Terraform Format
-      run: terraform fmt -check
+    - name: Terraform Format Check
+      run: terraform fmt -check -recursive
+
+    - name: Terraform Validate
+      run: terraform validate
 
     - name: Terraform Plan
+      id: plan
       run: |
         if [ "${{ github.event.inputs.action }}" == "destroy" ]; then
-          terraform plan -destroy -out=tfplan
+          terraform plan -destroy -var-file=environments/${{ github.event.inputs.environment }}/${{ github.event.inputs.environment }}.tfvars -out=tfplan
         else
-          terraform plan -out=tfplan
+          terraform plan -var-file=environments/${{ github.event.inputs.environment }}/${{ github.event.inputs.environment }}.tfvars -out=tfplan
         fi
 
-    - name: Terraform Apply or Destroy
-      run: |
-        if [ "${{ github.event.inputs.action }}" == "destroy" ]; then
-          terraform apply -destroy -auto-approve tfplan
-        else
-          terraform apply -auto-approve tfplan
-        fi
+    - name: Upload Plan Artifact
+      uses: actions/upload-artifact@v4
+      if: github.event.inputs.action != 'plan'
+      with:
+        name: tfplan-${{ github.event.inputs.environment }}
+        path: tfplan
+        retention-days: 5
+
+    - name: Terraform Apply
+      if: github.event.inputs.action == 'apply'
+      run: terraform apply -auto-approve tfplan
+
+    - name: Terraform Destroy
+      if: github.event.inputs.action == 'destroy'
+      run: terraform apply -auto-approve tfplan
+
+    - name: Terraform Output
+      if: github.event.inputs.action == 'apply'
+      id: output
+      run: terraform output -json > terraform-outputs.json
+
+    - name: Upload Outputs
+      if: github.event.inputs.action == 'apply'
+      uses: actions/upload-artifact@v4
+      with:
+        name: terraform-outputs-${{ github.event.inputs.environment }}
+        path: terraform-outputs.json
+        retention-days: 30
+
+# Best practices for CI/CD workflows:
+# 1. Use environment protection rules for production
+# 2. Require manual approval for destructive actions
+# 3. Upload plan artifacts for review
+# 4. Save outputs for reference
+# 5. Use specific Terraform version
+# 6. Validate and format before plan
+# 7. Use environment-specific tfvars files
