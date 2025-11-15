@@ -1,25 +1,170 @@
 {
-  "name": "My Terraform Workspace",
+  "name": "Terraform Development Environment",
   "image": "duyluann/terraform-toolkit:latest",
-  "customizations": {
-    "vscode": {
-      "settings": {
-        "terminal.integrated.defaultProfile.linux": "bash",
-        "terminal.integrated.copyOnSelection": true
-      }
+
+  // Container configuration
+  "containerUser": "tf-user",
+  "remoteUser": "tf-user",
+  "workspaceFolder": "/app",
+
+  // Features for enhanced development experience
+  "features": {
+    "ghcr.io/devcontainers/features/github-cli:1": {},
+    "ghcr.io/devcontainers/features/aws-cli:1": {},
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "installZsh": true,
+      "installOhMyZsh": true,
+      "upgradePackages": true
     }
   },
-  "containerUser": "tf-user",
+
+  // VS Code customizations
+  "customizations": {
+    "vscode": {
+      // Editor settings
+      "settings": {
+        // Terminal
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "terminal.integrated.copyOnSelection": true,
+        "terminal.integrated.scrollback": 10000,
+
+        // Editor
+        "editor.formatOnSave": true,
+        "editor.formatOnPaste": false,
+        "editor.tabSize": 2,
+        "editor.insertSpaces": true,
+        "editor.rulers": [80, 120],
+        "files.trimTrailingWhitespace": true,
+        "files.insertFinalNewline": true,
+
+        // Terraform
+        "[terraform]": {
+          "editor.defaultFormatter": "hashicorp.terraform",
+          "editor.formatOnSave": true,
+          "editor.formatOnSaveMode": "file"
+        },
+        "[terraform-vars]": {
+          "editor.defaultFormatter": "hashicorp.terraform",
+          "editor.formatOnSave": true
+        },
+        "terraform.experimentalFeatures.validateOnSave": true,
+        "terraform.languageServer.enable": true,
+        "terraform.codelens.referenceCount": true,
+
+        // Git
+        "git.autofetch": true,
+        "git.confirmSync": false,
+        "git.enableSmartCommit": true,
+        "git.postCommitCommand": "none",
+
+        // Files
+        "files.watcherExclude": {
+          "**/.git/objects/**": true,
+          "**/.git/subtree-cache/**": true,
+          "**/node_modules/*/**": true,
+          "**/.terraform/**": true,
+          "**/.terragrunt-cache/**": true
+        },
+        "files.associations": {
+          "*.tf": "terraform",
+          "*.tfvars": "terraform-vars",
+          "*.hcl": "terraform"
+        },
+
+        // Search
+        "search.exclude": {
+          "**/.terraform": true,
+          "**/.terragrunt-cache": true,
+          "**/terraform.tfstate*": true,
+          "**/.terraform.lock.hcl": false
+        }
+      },
+
+      // Extensions to install
+      "extensions": [
+        // Terraform
+        "hashicorp.terraform",
+        "4ops.terraform",
+
+        // AWS
+        "amazonwebservices.aws-toolkit-vscode",
+
+        // Git
+        "eamodio.gitlens",
+        "mhutchie.git-graph",
+
+        // Documentation
+        "yzhang.markdown-all-in-one",
+        "davidanson.vscode-markdownlint",
+
+        // Code Quality
+        "editorconfig.editorconfig",
+        "esbenp.prettier-vscode",
+        "streetsidesoftware.code-spell-checker",
+
+        // YAML/JSON
+        "redhat.vscode-yaml",
+        "tamasfe.even-better-toml",
+
+        // Utilities
+        "usernamehw.errorlens",
+        "gruntfuggly.todo-tree",
+        "aaron-bond.better-comments",
+        "oderwat.indent-rainbow",
+
+        // Theme (optional)
+        "ryannaddy.night-owl-black"
+      ]
+    }
+  },
+
+  // Mount host directories and files
   "mounts": [
     "source=${localWorkspaceFolder},target=/app,type=bind",
     "source=${env:HOME}/.ssh,target=/home/tf-user/.ssh,type=bind,readonly",
-    "source=${env:HOME}/.gnupg,target=/home/tf-user/.gnupg,type=bind,readonly"
+    "source=${env:HOME}/.gnupg,target=/home/tf-user/.gnupg,type=bind,readonly",
+    "source=${env:HOME}/.aws,target=/home/tf-user/.aws,type=bind,readonly",
+    "source=${env:HOME}/.gitconfig,target=/home/tf-user/.gitconfig,type=bind,readonly"
   ],
-  "postStartCommand": {
-    "set-git-config-safe-directory": "git config --global --add safe.directory ${containerWorkspaceFolder}",
-    "set-git-config-line-endings": "git config --global core.autocrlf input",
-    "set-git-config-gpg-program": "git config --global --add gpg.program /usr/bin/gpg",
-    "pre-commit-install": "pre-commit install"
+
+  // Environment variables
+  "containerEnv": {
+    "TF_PLUGIN_CACHE_DIR": "/home/tf-user/.terraform.d/plugin-cache",
+    "TF_CLI_CONFIG_FILE": "/home/tf-user/.terraformrc",
+    "EDITOR": "code --wait",
+    "VISUAL": "code --wait"
   },
-  "postCreateCommand": "terraform -version"
+
+  // Port forwarding (if needed for local web UIs)
+  "forwardPorts": [],
+
+  // Run commands after creating the container
+  "postCreateCommand": {
+    "verify-terraform": "terraform version",
+    "verify-tflint": "tflint --version",
+    "verify-checkov": "checkov --version || echo 'Checkov not installed'",
+    "verify-tfsec": "tfsec --version || echo 'TFSec not installed'",
+    "create-tf-cache": "mkdir -p /home/tf-user/.terraform.d/plugin-cache",
+    "show-versions": "echo '=== Tool Versions ===' && terraform version && tflint --version && echo 'Setup complete!'"
+  },
+
+  // Run commands each time the container starts
+  "postStartCommand": {
+    "set-git-safe-directory": "git config --global --add safe.directory ${containerWorkspaceFolder}",
+    "set-git-line-endings": "git config --global core.autocrlf input",
+    "set-git-gpg": "git config --global gpg.program /usr/bin/gpg || true",
+    "install-pre-commit": "pre-commit install --install-hooks || echo 'Pre-commit hooks already installed'",
+    "init-tflint": "tflint --init --config=${containerWorkspaceFolder}/.tflint.hcl || echo 'TFLint init failed, will retry on first use'"
+  },
+
+  // Lifecycle scripts
+  "onCreateCommand": "echo 'Container created! Installing dependencies...'",
+  "updateContentCommand": "echo 'Updating container content...'",
+
+  // Increase resource limits if needed
+  "hostRequirements": {
+    "cpus": 2,
+    "memory": "4gb",
+    "storage": "32gb"
+  }
 }
