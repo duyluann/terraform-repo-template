@@ -26,7 +26,7 @@ provider "aws" {
 
 # Use the S3 module
 module "application_bucket" {
-  source = "../../modules/module1"
+  source = "../../modules/s3-bucket"
 
   bucket_name       = "${var.prefix}-${var.environment}-app-data"
   environment       = var.environment
@@ -50,7 +50,7 @@ module "application_bucket" {
 
 # Another S3 bucket for logs
 module "logs_bucket" {
-  source = "../../modules/module1"
+  source = "../../modules/s3-bucket"
 
   bucket_name       = "${var.prefix}-${var.environment}-logs"
   environment       = var.environment

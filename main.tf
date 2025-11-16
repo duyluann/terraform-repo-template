@@ -5,7 +5,7 @@
 # Uncomment and modify to create actual resources
 
 # module "app_bucket" {
-#   source = "./modules/module1"
+#   source = "./modules/s3-bucket"
 #
 #   bucket_name       = "${local.name_prefix}-app-data-${data.aws_caller_identity.current.account_id}"
 #   environment       = var.env
@@ -35,7 +35,7 @@ data "aws_caller_identity" "current" {}
 
 # Example: Create multiple resources using the same module
 # module "logs_bucket" {
-#   source = "./modules/module1"
+#   source = "./modules/s3-bucket"
 #
 #   bucket_name       = "${local.name_prefix}-logs-${data.aws_caller_identity.current.account_id}"
 #   environment       = var.env

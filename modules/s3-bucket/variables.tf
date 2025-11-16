@@ -6,8 +6,8 @@ variable "bucket_name" {
   type        = string
 
   validation {
-    condition     = can(regex("^[a-z0-9][a-z0-9-]*[a-z0-9]$", var.bucket_name))
-    error_message = "Bucket name must start and end with lowercase letter or number, and can contain only lowercase letters, numbers, and hyphens."
+    condition     = can(regex("^[a-z0-9]([a-z0-9-]{1,61}[a-z0-9])?$", var.bucket_name)) && !can(regex("[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}", var.bucket_name)) && !can(regex("--", var.bucket_name))
+    error_message = "Bucket name must be 3-63 chars, start/end with lowercase letter or number, contain only lowercase letters/numbers/hyphens, no consecutive hyphens, and cannot be formatted as an IP address."
   }
 }
 
@@ -47,6 +47,7 @@ variable "lifecycle_rules" {
     expiration_days          = optional(number)
     transition_days          = optional(number)
     transition_storage_class = optional(string)
+    abort_incomplete_days    = optional(number)
   }))
   default = []
 }

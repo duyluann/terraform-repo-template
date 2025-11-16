@@ -31,6 +31,10 @@ jobs:
     name: Terraform ${{ github.event.inputs.action }} - ${{ github.event.inputs.environment }}
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: read
+      id-token: write  # For AWS OIDC (if using)
+
     # Use GitHub environment protection rules
     # This allows you to require approvals for production deployments
     environment:

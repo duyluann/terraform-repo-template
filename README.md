@@ -38,10 +38,10 @@ This repository provides a structured template for Terraform projects, enabling 
 ├── locals.tf                           # 🛠️ Local variables for Terraform
 ├── main.tf                             # 🌐 Main Terraform configuration
 ├── modules                             # 📦 Custom Terraform modules
-│   └── module1
-│       ├── main.tf                     # 🌐 Main configuration for module1
-│       ├── outputs.tf                  # 📤 Output definitions for module1
-│       └── variables.tf                # 📥 Input variables for module1
+│   └── s3-bucket
+│       ├── main.tf                     # 🌐 Main configuration for s3-bucket
+│       ├── outputs.tf                  # 📤 Output definitions for s3-bucket
+│       └── variables.tf                # 📥 Input variables for s3-bucket
 ├── .pre-commit-config.yaml             # 🛠️ Pre-commit hooks configuration
 ├── providers.tf                        # ☁️ Provider configurations for Terraform
 ├── README.md                           # 📖 Project documentation (this file)

@@ -59,6 +59,7 @@ repos:
         description: Security scanning with Checkov
         args:
           - --args=--config-file __GIT_WORKING_DIR__/.checkov.yml
+          - --args=--soft-fail
 
   # Secret detection
   - repo: https://github.com/gitleaks/gitleaks

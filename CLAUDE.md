@@ -79,7 +79,7 @@ terraform-docs markdown table --output-file README.md .
 
 ### Module System
 - Custom modules in `modules/` directory
-- Example module: `module1` - Production-ready S3 bucket module with:
+- Example module: `s3-bucket` - Production-ready S3 bucket module with:
   - Server-side encryption (AES256)
   - Versioning support
   - Public access blocking
@@ -150,14 +150,14 @@ Follow Conventional Commits format (enforced by semantic-release):
 - `BREAKING CHANGE:` in commit body - Major version bump
 
 **Commit Message Format:**
-```
+```text
 <type>(<scope>): <subject>
 
 <body>
 ```
 
 **Example:**
-```
+```text
 feat(s3): add encryption configuration for buckets
 
 Configure AES256 encryption for all S3 buckets to meet

@@ -72,6 +72,13 @@ resource "aws_s3_bucket_lifecycle_configuration" "this" {
           storage_class = rule.value.transition_storage_class
         }
       }
+
+      dynamic "abort_incomplete_multipart_upload" {
+        for_each = rule.value.abort_incomplete_days != null ? [1] : []
+        content {
+          days_after_initiation = rule.value.abort_incomplete_days
+        }
+      }
     }
   }
 }

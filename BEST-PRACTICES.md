@@ -38,7 +38,7 @@ This document summarizes all the best practices implemented in this Terraform te
 ## Code Organization
 
 ### ✅ Root Module Structure
-```
+```text
 ├── versions.tf          # Version constraints and backend
 ├── providers.tf         # Provider configuration
 ├── variables.tf         # Input variables
@@ -92,7 +92,7 @@ This document summarizes all the best practices implemented in this Terraform te
    - Prevents credential commits
 
 ### ✅ Secure-by-Default Resources
-- **Example**: S3 bucket module (modules/module1)
+- **Example**: S3 bucket module (modules/s3-bucket)
   - Encryption enabled by default
   - Public access blocked
   - Versioning configurable
@@ -226,8 +226,8 @@ This document summarizes all the best practices implemented in this Terraform te
   - Security hardening
 
 ### ✅ Module Structure
-```
-modules/module1/
+```text
+modules/s3-bucket/
 ├── main.tf           # Resources
 ├── variables.tf      # Inputs with validation
 ├── outputs.tf        # Outputs with descriptions
@@ -330,7 +330,7 @@ For new team members using this template:
 - [ ] Install pre-commit: `pre-commit install`
 - [ ] Run TFLint init: `tflint --init`
 - [ ] Review environment tfvars in `environments/`
-- [ ] Customize module1 or create new modules
+- [ ] Customize s3-bucket module or create new modules
 - [ ] Update CODEOWNERS file
 - [ ] Configure GitHub Environments for prod approval
 - [ ] Set up AWS credentials in GitHub secrets

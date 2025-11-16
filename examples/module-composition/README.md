@@ -50,30 +50,14 @@ terraform apply -var="environment=prod"
 ## Module Dependencies
 
 ```
-application_bucket (module1)
+application_bucket (s3-bucket)
     ↓
-logs_bucket (module1)
+logs_bucket (s3-bucket)
     ↓
 local.bucket_info
     ↓
 outputs
 ```
-
-## Variables
-
-| Name | Description | Default |
-|------|-------------|---------|
-| region | AWS region | ap-southeast-1 |
-| environment | Environment name | dev |
-| prefix | Resource name prefix | example |
-
-## Outputs
-
-| Name | Description |
-|------|-------------|
-| application_bucket | Application bucket details |
-| logs_bucket | Logs bucket details |
-| all_buckets | Map of all bucket IDs |
 
 ## Notes
 
@@ -97,8 +81,8 @@ No providers.
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_application_bucket"></a> [application\_bucket](#module\_application\_bucket) | ../../modules/module1 | n/a |
-| <a name="module_logs_bucket"></a> [logs\_bucket](#module\_logs\_bucket) | ../../modules/module1 | n/a |
+| <a name="module_application_bucket"></a> [application\_bucket](#module\_application\_bucket) | ../../modules/s3-bucket | n/a |
+| <a name="module_logs_bucket"></a> [logs\_bucket](#module\_logs\_bucket) | ../../modules/s3-bucket | n/a |
 
 ## Resources
 

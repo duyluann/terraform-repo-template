@@ -3,8 +3,8 @@
 # Best practice: Document what each output represents and its use case
 
 # output "example_module_output" {
-#   description = "Output from module1"
-#   value       = module.module1.example_output
+#   description = "Output from s3-bucket module"
+#   value       = module.s3_bucket.example_output
 # }
 
 # Example: VPC ID (uncomment and modify when you create VPC resources)

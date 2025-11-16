@@ -1,5 +1,6 @@
+# DEPRECATED: This file is no longer used.
 # Backend configuration has been moved to versions.tf
-# This file is kept for documentation purposes and can be removed if desired
+# This file can be safely deleted.
 #
-# Note: The terraform {} block with backend configuration is now in versions.tf
-# to follow best practices of consolidating version constraints and backend config
+# Migration: All backend configuration is now in versions.tf to follow
+# best practices of consolidating version constraints and backend configuration.

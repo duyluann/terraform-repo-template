@@ -1,4 +1,4 @@
-# Module1 - S3 Bucket Module
+# S3 Bucket Module
 
 This module creates an S3 bucket with security best practices enabled by default.
 
@@ -14,7 +14,7 @@ This module creates an S3 bucket with security best practices enabled by default
 
 ```hcl
 module "s3_bucket" {
-  source = "./modules/module1"
+  source = "./modules/s3-bucket"
 
   bucket_name        = "my-unique-bucket-name"
   environment        = "dev"
@@ -82,7 +82,7 @@ This module implements security best practices:
 
 ```hcl
 module "prod_bucket" {
-  source = "./modules/module1"
+  source = "./modules/s3-bucket"
 
   bucket_name       = "myapp-prod-data"
   environment       = "prod"
@@ -109,7 +109,7 @@ module "prod_bucket" {
 
 ```hcl
 module "dev_bucket" {
-  source = "./modules/module1"
+  source = "./modules/s3-bucket"
 
   bucket_name       = "myapp-dev-testing"
   environment       = "dev"
@@ -121,13 +121,16 @@ module "dev_bucket" {
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
-No requirements.
+| Name | Version |
+|------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 5.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 6.21.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 5.100.0 |
 
 ## Modules
 
@@ -151,7 +154,7 @@ No modules.
 | <a name="input_enable_encryption"></a> [enable\_encryption](#input\_enable\_encryption) | Enable server-side encryption for the S3 bucket | `bool` | `true` | no |
 | <a name="input_enable_versioning"></a> [enable\_versioning](#input\_enable\_versioning) | Enable versioning for the S3 bucket | `bool` | `true` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | Environment name (dev, qa, prod) | `string` | n/a | yes |
-| <a name="input_lifecycle_rules"></a> [lifecycle\_rules](#input\_lifecycle\_rules) | List of lifecycle rules for the bucket | <pre>list(object({<br/>    id                       = string<br/>    enabled                  = bool<br/>    expiration_days          = optional(number)<br/>    transition_days          = optional(number)<br/>    transition_storage_class = optional(string)<br/>  }))</pre> | `[]` | no |
+| <a name="input_lifecycle_rules"></a> [lifecycle\_rules](#input\_lifecycle\_rules) | List of lifecycle rules for the bucket | <pre>list(object({<br/>    id                       = string<br/>    enabled                  = bool<br/>    expiration_days          = optional(number)<br/>    transition_days          = optional(number)<br/>    transition_storage_class = optional(string)<br/>    abort_incomplete_days    = optional(number)<br/>  }))</pre> | `[]` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | Additional tags to apply to the S3 bucket | `map(string)` | `{}` | no |
 
 ## Outputs
