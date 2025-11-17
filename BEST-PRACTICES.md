@@ -76,12 +76,7 @@ This document summarizes all the best practices implemented in this Terraform te
    - Terraform and plan analysis
    - Quiet mode for clean output
 
-2. **TFSec** (.tfsec.yml, .tfsec-config.json)
-   - Static code security analysis
-   - MEDIUM severity minimum
-   - Integrated in pre-commit
-
-3. **TFLint** (.tflint.hcl)
+2. **TFLint** (.tflint.hcl)
    - AWS plugin for AWS-specific checks
    - Terraform best practices enforcement
    - Naming convention validation
@@ -125,7 +120,7 @@ This document summarizes all the best practices implemented in this Terraform te
   - Validation
   - Documentation generation
   - Linting (TFLint)
-  - Security scanning (TFSec, Checkov)
+  - Security scanning (Checkov)
   - Secret detection (Gitleaks)
 
 ### ✅ Automated Quality Checks
@@ -186,7 +181,7 @@ This document summarizes all the best practices implemented in this Terraform te
 ## Testing and Validation
 
 ### ✅ Static Analysis
-- **Tools**: TFLint, TFSec, Checkov
+- **Tools**: TFLint, Checkov
 - **Coverage**:
   - Syntax validation
   - Best practices
@@ -278,7 +273,6 @@ modules/s3-bucket/
 |------|-------------|---------|---------|
 | Terraform | versions.tf | Version management | ✅ |
 | TFLint | .tflint.hcl | Linting + AWS rules | ✅ |
-| TFSec | .tfsec.yml | Security scanning | ✅ |
 | Checkov | .checkov.yml | Policy compliance | ✅ |
 | Gitleaks | (default) | Secret detection | ✅ |
 | Pre-commit | .pre-commit-config.yaml | Git hooks | ✅ |
@@ -297,7 +291,7 @@ modules/s3-bucket/
 
 2. **Security**
    - Before: Only Checkov
-   - After: TFLint + TFSec + Checkov (3 layers)
+   - After: TFLint + Checkov (2 layers)
 
 3. **Modules**
    - Before: Empty template modules
@@ -334,7 +328,7 @@ For new team members using this template:
 - [ ] Update CODEOWNERS file
 - [ ] Configure GitHub Environments for prod approval
 - [ ] Set up AWS credentials in GitHub secrets
-- [ ] Review and adjust .tflint.hcl, .tfsec.yml, .checkov.yml
+- [ ] Review and adjust .tflint.hcl, .checkov.yml
 - [ ] Read examples in `examples/` directory
 - [ ] Update variables in variables.tf for your use case
 
@@ -359,7 +353,6 @@ Consider adding:
 - [Terraform Best Practices](https://www.terraform-best-practices.com/)
 - [AWS Provider Documentation](https://registry.terraform.io/providers/hashicorp/aws/latest/docs)
 - [TFLint Rules](https://github.com/terraform-linters/tflint-ruleset-aws)
-- [TFSec Checks](https://aquasecurity.github.io/tfsec/)
 - [Checkov Policies](https://www.checkov.io/5.Policy%20Index/terraform.html)
 
 ---

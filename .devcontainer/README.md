@@ -7,7 +7,6 @@ This directory contains the development container configuration for this Terrafo
 ### Core Tools
 - **Terraform**: Infrastructure as Code tool
 - **TFLint**: Terraform linter with AWS plugin
-- **TFSec**: Security scanning for Terraform (if available in base image)
 - **Checkov**: Policy-as-code security scanner (if available in base image)
 - **Pre-commit**: Git hook framework
 - **GitHub CLI**: GitHub command-line tool
@@ -176,9 +175,6 @@ pre-commit autoupdate
 ```bash
 # TFLint
 tflint --config=.tflint.hcl
-
-# TFSec (if installed)
-tfsec --config-file=.tfsec.yml
 
 # Checkov (if installed)
 checkov --config-file=.checkov.yml
