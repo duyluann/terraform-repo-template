@@ -2,5 +2,13 @@ quiet: true
 framework:
   - terraform
   - terraform_plan
-# skip-check:
-#   - CKV_AWS_59 # SKIP: Ensure there is no open access to back-end resources through API
+
+# Skip checks that are too strict for a general-purpose template
+# These can be enabled per-project based on specific requirements
+skip-check:
+  # S3 Bucket - Optional features that may not be needed for all buckets
+  - CKV_AWS_18        # S3 access logging - creates circular dependency, optional per use case
+  - CKV2_AWS_62       # S3 event notifications - not required for all buckets
+  - CKV_AWS_144       # Cross-region replication - expensive, not needed for all buckets
+  - CKV_AWS_145       # KMS encryption - AES256 is sufficient for many use cases
+  - CKV_AWS_300       # Abort incomplete multipart - optional, already supported via variable

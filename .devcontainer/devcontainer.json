@@ -1,25 +1,153 @@
 {
-  "name": "My Terraform Workspace",
-  "image": "duyluann/terraform-toolkit:latest",
-  "customizations": {
-    "vscode": {
-      "settings": {
-        "terminal.integrated.defaultProfile.linux": "bash",
-        "terminal.integrated.copyOnSelection": true
-      }
+  "name": "Terraform Development Environment",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+
+  // Container configuration
+  "containerUser": "tf-user",
+  "remoteUser": "tf-user",
+  "workspaceFolder": "/app",
+
+  // Features for enhanced development experience
+  "features": {
+    "ghcr.io/devcontainers/features/github-cli:1": {},
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "installZsh": true,
+      "installOhMyZsh": true,
+      "upgradePackages": true
+    },
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "lts"
     }
   },
-  "containerUser": "tf-user",
+
+  // VS Code customizations
+  "customizations": {
+    "vscode": {
+      // Editor settings
+      "settings": {
+        // Terminal
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "terminal.integrated.copyOnSelection": true,
+        "terminal.integrated.scrollback": 10000,
+
+        // Editor
+        "editor.formatOnSave": true,
+        "editor.formatOnPaste": false,
+        "editor.tabSize": 2,
+        "editor.insertSpaces": true,
+        "editor.rulers": [80, 120],
+        "files.trimTrailingWhitespace": true,
+        "files.insertFinalNewline": true,
+
+        // Terraform
+        "[terraform]": {
+          "editor.defaultFormatter": "hashicorp.terraform",
+          "editor.formatOnSave": true,
+          "editor.formatOnSaveMode": "file"
+        },
+        "[terraform-vars]": {
+          "editor.defaultFormatter": "hashicorp.terraform",
+          "editor.formatOnSave": true
+        },
+        "terraform.experimentalFeatures.validateOnSave": true,
+        "terraform.languageServer.enable": true,
+        "terraform.codelens.referenceCount": true,
+
+        // Git
+        "git.autofetch": true,
+        "git.confirmSync": false,
+        "git.enableSmartCommit": true,
+        "git.postCommitCommand": "none",
+
+        // Files
+        "files.watcherExclude": {
+          "**/.git/objects/**": true,
+          "**/.git/subtree-cache/**": true,
+          "**/node_modules/*/**": true,
+          "**/.terraform/**": true,
+          "**/.terragrunt-cache/**": true
+        },
+        "files.associations": {
+          "*.tf": "terraform",
+          "*.tfvars": "terraform-vars",
+          "*.hcl": "terraform"
+        },
+
+        // Search
+        "search.exclude": {
+          "**/.terraform": true,
+          "**/.terragrunt-cache": true,
+          "**/terraform.tfstate*": true,
+          "**/.terraform.lock.hcl": false
+        }
+      },
+
+      // Extensions to install
+      "extensions": [
+        "hashicorp.terraform",
+        "4ops.terraform",
+        "eamodio.gitlens",
+        "mhutchie.git-graph",
+        "yzhang.markdown-all-in-one",
+        "editorconfig.editorconfig",
+        "esbenp.prettier-vscode",
+        "streetsidesoftware.code-spell-checker",
+        "usernamehw.errorlens",
+        "aaron-bond.better-comments",
+        "oderwat.indent-rainbow",
+        "shardulm94.trailing-spaces"
+      ]
+    }
+  },
+
+  // Mount host directories and files to inherit local configuration
+  // Note: All source paths must exist on host or container startup will fail
+  // Comment out any optional mounts if the source doesn't exist on your system
   "mounts": [
     "source=${localWorkspaceFolder},target=/app,type=bind",
-    "source=${env:HOME}/.ssh,target=/home/tf-user/.ssh,type=bind,readonly",
-    "source=${env:HOME}/.gnupg,target=/home/tf-user/.gnupg,type=bind,readonly"
+    // Git configuration
+    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.gitconfig,target=/home/tf-user/.gitconfig,type=bind,consistency=cached",
+    // SSH keys (read-only for security)
+    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.ssh,target=/home/tf-user/.ssh,type=bind,readonly",
+    // AWS credentials and config
+    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.aws,target=/home/tf-user/.aws,type=bind,consistency=cached",
+    // Terraform configuration and plugin cache
+    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.terraform.d,target=/home/tf-user/.terraform.d,type=bind,consistency=cached",
+    // Optional: Terraform CLI configuration (uncomment if you have ~/.terraformrc)
+    // "source=${localEnv:HOME}${localEnv:USERPROFILE}/.terraformrc,target=/home/tf-user/.terraformrc,type=bind,consistency=cached",
+    // Pre-commit cache for faster hook execution
+    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.cache/pre-commit,target=/home/tf-user/.cache/pre-commit,type=bind,consistency=cached"
+    // Optional: Claude Code configuration and history (uncomment if you have ~/.claude)
+    // "source=${localEnv:HOME}${localEnv:USERPROFILE}/.claude,target=/home/tf-user/.claude,type=bind,consistency=cached"
   ],
-  "postStartCommand": {
-    "set-git-config-safe-directory": "git config --global --add safe.directory ${containerWorkspaceFolder}",
-    "set-git-config-line-endings": "git config --global core.autocrlf input",
-    "set-git-config-gpg-program": "git config --global --add gpg.program /usr/bin/gpg",
-    "pre-commit-install": "pre-commit install"
+
+  // Environment variables - inherit from host where possible
+  "containerEnv": {
+    "EDITOR": "code --wait",
+    "VISUAL": "code --wait"
   },
-  "postCreateCommand": "terraform -version"
+
+  // Port forwarding (if needed for local web UIs)
+  "forwardPorts": [],
+
+  // Run commands after creating the container
+  // Inherits local config via mounts, minimal setup required
+  "postCreateCommand": "bash -c 'npm install -g @anthropic-ai/claude-code && echo \"=== Tool Versions ===\" && terraform version && tflint --version && (checkov --version 2>/dev/null || echo \"Checkov: Not installed\") && (tfsec --version 2>/dev/null || echo \"TFSec: Not installed\") && (claude-code --version 2>/dev/null || echo \"Claude Code: Installed\") && echo \"Setup complete! Using inherited local configuration.\"'",
+
+  // Run commands each time the container starts
+  // Inherits git config, just ensure safe directory
+  "postStartCommand": "bash -c 'git config --global --add safe.directory ${containerWorkspaceFolder} 2>/dev/null || true && (pre-commit install --install-hooks 2>/dev/null || echo \"Pre-commit: Installing hooks\") && (tflint --init --config=${containerWorkspaceFolder}/.tflint.hcl 2>/dev/null || echo \"TFLint: Will initialize on first use\")'",
+
+  // Lifecycle scripts
+  "onCreateCommand": "echo 'Container created! Installing dependencies...'",
+  "updateContentCommand": "echo 'Updating container content...'",
+
+  // Increase resource limits if needed
+  "hostRequirements": {
+    "cpus": 2,
+    "memory": "4gb",
+    "storage": "32gb"
+  }
 }
