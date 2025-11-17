@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [1.13.0](https://github.com/duyluann/terraform-repo-template/compare/v1.12.1...v1.13.0) (2025-11-17)
+
+
+### Features
+
+* implement comprehensive terraform best practices ([#115](https://github.com/duyluann/terraform-repo-template/issues/115)) ([4855d28](https://github.com/duyluann/terraform-repo-template/commit/4855d284cb7ff92b3dee085ec60483e55cae549e))
+
 ## [1.12.1](https://github.com/duyluann/terraform-repo-template/compare/v1.12.0...v1.12.1) (2025-08-13)
 
 
