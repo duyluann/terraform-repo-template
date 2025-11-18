@@ -38,4 +38,3 @@ terraform.rc
 
 # Ignore Infracost resources
 .infracost
-aws-terraform-dev-container/
