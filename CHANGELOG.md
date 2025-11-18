@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.13.1](https://github.com/duyluann/terraform-repo-template/compare/v1.13.0...v1.13.1) (2025-11-18)
+
+
+### Bug Fixes
+
+* remove deprecated tfsec pre-commit hook ([#118](https://github.com/duyluann/terraform-repo-template/issues/118)) ([2685fb2](https://github.com/duyluann/terraform-repo-template/commit/2685fb23ffc431f3608929cbaaae59e517435fa4))
+
 # [1.13.0](https://github.com/duyluann/terraform-repo-template/compare/v1.12.1...v1.13.0) (2025-11-17)
 
 
