@@ -86,18 +86,34 @@
 
       // Extensions to install
       "extensions": [
+        // Terraform and IaC
         "hashicorp.terraform",
         "4ops.terraform",
+        "ms-azuretools.vscode-azureterraform",
+        "run-at-scale.terraform-doc-snippets",
+        // Git and version control
         "eamodio.gitlens",
         "mhutchie.git-graph",
+        "donjayamanne.githistory",
+        // Documentation and markdown
         "yzhang.markdown-all-in-one",
+        "davidanson.vscode-markdownlint",
+        // Code quality and formatting
         "editorconfig.editorconfig",
         "esbenp.prettier-vscode",
         "streetsidesoftware.code-spell-checker",
         "usernamehw.errorlens",
         "aaron-bond.better-comments",
         "oderwat.indent-rainbow",
-        "shardulm94.trailing-spaces"
+        "shardulm94.trailing-spaces",
+        // Cloud provider support
+        "ms-vscode.vscode-node-azure-pack",
+        // Scripting and automation
+        "timonwong.shellcheck",
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        // YAML support
+        "redhat.vscode-yaml"
       ]
     }
   },
@@ -111,8 +127,13 @@
     "source=${localEnv:HOME}${localEnv:USERPROFILE}/.gitconfig,target=/home/tf-user/.gitconfig,type=bind,consistency=cached",
     // SSH keys (read-only for security)
     "source=${localEnv:HOME}${localEnv:USERPROFILE}/.ssh,target=/home/tf-user/.ssh,type=bind,readonly",
+    // Multi-cloud credentials and configuration
     // AWS credentials and config
     "source=${localEnv:HOME}${localEnv:USERPROFILE}/.aws,target=/home/tf-user/.aws,type=bind,consistency=cached",
+    // Azure credentials and config
+    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.azure,target=/home/tf-user/.azure,type=bind,consistency=cached",
+    // GCP credentials and config
+    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.config/gcloud,target=/home/tf-user/.config/gcloud,type=bind,consistency=cached",
     // Terraform configuration and plugin cache
     "source=${localEnv:HOME}${localEnv:USERPROFILE}/.terraform.d,target=/home/tf-user/.terraform.d,type=bind,consistency=cached",
     // Optional: Terraform CLI configuration (uncomment if you have ~/.terraformrc)
@@ -137,8 +158,8 @@
   "postCreateCommand": "bash -c 'npm install -g @anthropic-ai/claude-code && echo \"=== Tool Versions ===\" && terraform version && tflint --version && (checkov --version 2>/dev/null || echo \"Checkov: Not installed\") && (claude-code --version 2>/dev/null || echo \"Claude Code: Installed\") && echo \"Setup complete! Using inherited local configuration.\"'",
 
   // Run commands each time the container starts
-  // Inherits git config, just ensure safe directory
-  "postStartCommand": "bash -c 'git config --global --add safe.directory ${containerWorkspaceFolder} 2>/dev/null || true && (pre-commit install --install-hooks 2>/dev/null || echo \"Pre-commit: Installing hooks\") && (tflint --init --config=${containerWorkspaceFolder}/.tflint.hcl 2>/dev/null || echo \"TFLint: Will initialize on first use\")'",
+  // Use enhanced post-start script with multi-cloud support
+  "postStartCommand": "bash /app/.devcontainer/post-start.sh",
 
   // Lifecycle scripts
   "onCreateCommand": "echo 'Container created! Installing dependencies...'",

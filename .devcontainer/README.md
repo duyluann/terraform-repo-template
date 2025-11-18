@@ -1,16 +1,26 @@
 # Development Container Configuration
 
-This directory contains the development container configuration for this Terraform project. The devcontainer provides a consistent, reproducible development environment with all necessary tools pre-installed.
+This directory contains the development container configuration for this Terraform project. The devcontainer provides a consistent, reproducible development environment with all necessary tools pre-installed and multi-cloud support for AWS, Azure, and GCP.
 
 ## What's Included
 
 ### Core Tools
 - **Terraform**: Infrastructure as Code tool
-- **TFLint**: Terraform linter with AWS plugin
+- **TFLint**: Terraform linter with multi-cloud rulesets
 - **Checkov**: Policy-as-code security scanner (if available in base image)
 - **Pre-commit**: Git hook framework
 - **GitHub CLI**: GitHub command-line tool
-- **AWS CLI**: Amazon Web Services command-line interface
+- **Claude Code**: AI-powered code assistant
+
+### Multi-Cloud CLI Tools
+- **AWS CLI v2**: Amazon Web Services command-line interface
+- **Azure CLI**: Microsoft Azure command-line interface
+- **Google Cloud SDK**: Google Cloud Platform CLI and tools
+
+### Authentication Helpers
+- **aws-auth.sh**: AWS authentication helper (SSO, profiles, regions)
+- **azure-auth.sh**: Azure authentication helper (interactive, service principal)
+- **gcp-auth.sh**: GCP authentication helper (user, service account)
 
 ### Development Features
 - **Oh My Zsh**: Enhanced shell experience
@@ -20,31 +30,37 @@ This directory contains the development container configuration for this Terrafo
 
 ### VS Code Extensions
 
-**Terraform**:
+**Terraform & IaC**:
 - HashiCorp Terraform - Official Terraform extension
 - 4ops Terraform - Additional Terraform tooling
+- Azure Terraform - Azure-specific Terraform support
+- Terraform Doc Snippets - Documentation generation
 
-**AWS**:
-- AWS Toolkit - AWS resource management
+**Cloud Providers**:
+- Azure Tools Pack - Complete Azure development toolkit
+- Python & Pylance - For cloud automation scripts
 
 **Git & Version Control**:
 - GitLens - Enhanced Git capabilities
 - Git Graph - Git history visualization
+- Git History - Additional Git history views
 
 **Documentation**:
 - Markdown All in One - Markdown authoring
 - Markdown Lint - Markdown best practices
+- YAML - YAML language support
 
 **Code Quality**:
 - EditorConfig - Maintain consistent coding styles
 - Prettier - Code formatter
 - Code Spell Checker - Spelling verification
+- ShellCheck - Shell script linting
 
 **Utilities**:
 - Error Lens - Inline error highlighting
-- TODO Tree - TODO/FIXME tracking
 - Better Comments - Enhanced comment styling
 - Indent Rainbow - Indentation visualization
+- Trailing Spaces - Whitespace management
 
 ## Prerequisites
 
@@ -79,12 +95,13 @@ This directory contains the development container configuration for this Terrafo
 ### 2. First-Time Setup
 
 When the container starts for the first time:
-1. Dependencies will be verified
-2. Pre-commit hooks will be installed
-3. TFLint AWS plugin will be downloaded
-4. Tool versions will be displayed
+1. Multi-cloud CLI tools will be installed
+2. Dependencies will be verified
+3. Pre-commit hooks will be installed
+4. TFLint plugins will be downloaded
+5. Tool versions will be displayed
 
-This process takes 1-3 minutes on first run.
+This process takes 3-5 minutes on first run due to cloud CLI installations.
 
 ### 3. Verify Installation
 
@@ -100,11 +117,16 @@ tflint --version
 # Check pre-commit
 pre-commit --version
 
-# Check AWS CLI (if needed)
+# Check multi-cloud CLIs
 aws --version
+az version
+gcloud --version
 
-# Check GitHub CLI (if needed)
+# Check GitHub CLI
 gh --version
+
+# Check Claude Code
+claude-code --version
 ```
 
 ## Configuration
@@ -114,9 +136,13 @@ gh --version
 The devcontainer automatically mounts:
 - **Workspace**: Your project directory to `/app`
 - **SSH Keys**: `~/.ssh` (read-only) for Git operations
-- **GPG Keys**: `~/.gnupg` (read-only) for commit signing
-- **AWS Config**: `~/.aws` (read-only) for AWS operations
-- **Git Config**: `~/.gitconfig` (read-only) for Git settings
+- **Git Config**: `~/.gitconfig` for Git settings
+- **Multi-Cloud Credentials**:
+  - **AWS**: `~/.aws` for AWS credentials and config
+  - **Azure**: `~/.azure` for Azure credentials
+  - **GCP**: `~/.config/gcloud` for Google Cloud config
+- **Terraform Cache**: `~/.terraform.d` for plugin cache
+- **Pre-commit Cache**: `~/.cache/pre-commit` for faster hook execution
 
 ### Environment Variables
 
@@ -180,16 +206,66 @@ tflint --config=.tflint.hcl
 checkov --config-file=.checkov.yml
 ```
 
-### AWS Configuration
+### Multi-Cloud Authentication
 
-If you need to use AWS services:
+The container includes helper scripts for easy authentication with each cloud provider.
+
+#### AWS Authentication
 
 ```bash
-# Configure AWS CLI (credentials will be read from mounted ~/.aws)
-aws configure list
+# Basic AWS authentication (uses mounted credentials)
+.devcontainer/scripts/aws-auth.sh
+
+# Use specific profile
+.devcontainer/scripts/aws-auth.sh --profile my-profile
+
+# Use specific region
+.devcontainer/scripts/aws-auth.sh --region us-west-2
+
+# Use AWS SSO
+.devcontainer/scripts/aws-auth.sh --sso
+
+# Combined options
+.devcontainer/scripts/aws-auth.sh --profile prod --region us-east-1 --sso
 
 # Test AWS connection
 aws sts get-caller-identity
+```
+
+#### Azure Authentication
+
+```bash
+# Interactive login
+.devcontainer/scripts/azure-auth.sh
+
+# Use specific subscription
+.devcontainer/scripts/azure-auth.sh --subscription YOUR_SUBSCRIPTION_ID
+
+# Service principal authentication
+.devcontainer/scripts/azure-auth.sh --service-principal \
+  --client-id YOUR_CLIENT_ID \
+  --client-secret YOUR_SECRET \
+  --tenant YOUR_TENANT_ID
+
+# Verify Azure authentication
+az account show
+```
+
+#### GCP Authentication
+
+```bash
+# Interactive login
+.devcontainer/scripts/gcp-auth.sh
+
+# Use specific project
+.devcontainer/scripts/gcp-auth.sh --project YOUR_PROJECT_ID
+
+# Service account authentication
+.devcontainer/scripts/gcp-auth.sh --credentials /path/to/service-account-key.json
+
+# Verify GCP authentication
+gcloud auth list
+gcloud config list
 ```
 
 ## Customization
