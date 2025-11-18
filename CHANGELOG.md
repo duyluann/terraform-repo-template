@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [1.14.0](https://github.com/duyluann/terraform-repo-template/compare/v1.13.1...v1.14.0) (2025-11-18)
+
+
+### Features
+
+* **devcontainer:** add multi-cloud support for AWS, Azure, and GCP ([#119](https://github.com/duyluann/terraform-repo-template/issues/119)) ([f632bb0](https://github.com/duyluann/terraform-repo-template/commit/f632bb0fa64a67543a4614ace0da2f82e09c432e))
+
 ## [1.13.1](https://github.com/duyluann/terraform-repo-template/compare/v1.13.0...v1.13.1) (2025-11-18)
 
 
