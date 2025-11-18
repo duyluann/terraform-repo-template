@@ -32,7 +32,6 @@ tflint --config=.tflint.hcl
 
 # Run security scans
 checkov --config-file .checkov.yml
-tfsec --config-file .tfsec.yml
 
 # Plan for specific environment
 terraform plan -var-file=environments/dev/dev.tfvars
@@ -182,7 +181,6 @@ The following checks run automatically before each commit:
 - terraform_tflint: Linting with comprehensive rules (.tflint.hcl)
 
 **Security Scanning:**
-- terraform_tfsec: Security scanning with tfsec (.tfsec.yml)
 - terraform_checkov: Security and compliance scanning (.checkov.yml)
 - gitleaks: Secret detection
 
@@ -207,17 +205,6 @@ All hooks include detailed descriptions and best practice configurations.
   - terraform_standard_module_structure
 - Run `tflint --init` first time to download AWS plugin
 - Configuration optimized for production use while maintaining flexibility
-
-### TFSec Configuration
-- **Additional security scanning** layer beyond Checkov
-- Minimum severity: MEDIUM
-- Configuration files: .tfsec.yml and .tfsec-config.json
-- Integrated into pre-commit hooks with soft-fail mode
-- Catches common misconfigurations:
-  - Missing encryption
-  - Public access issues
-  - Weak security group rules
-  - IMDSv2 enforcement
 
 ## Development Container
 
@@ -255,7 +242,7 @@ Each example includes:
 
 - **Terraform version**: Managed via .terraform-version (1.10.5) and versions.tf (>= 1.0)
 - **Environment tfvars**: Always use environment-specific tfvars files for deployments
-- **Security scanning**: Three layers - TFLint, TFSec, and Checkov
+- **Security scanning**: Two layers - TFLint and Checkov
 - **Secret detection**: Gitleaks will block commits containing secrets
 - **Backend**: Defaults to local - update versions.tf for team collaboration
 - **Auto-tagging**: All resources tagged via provider default_tags + mergeable in locals.tf

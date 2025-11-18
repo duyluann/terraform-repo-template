@@ -134,7 +134,7 @@
 
   // Run commands after creating the container
   // Inherits local config via mounts, minimal setup required
-  "postCreateCommand": "bash -c 'npm install -g @anthropic-ai/claude-code && echo \"=== Tool Versions ===\" && terraform version && tflint --version && (checkov --version 2>/dev/null || echo \"Checkov: Not installed\") && (tfsec --version 2>/dev/null || echo \"TFSec: Not installed\") && (claude-code --version 2>/dev/null || echo \"Claude Code: Installed\") && echo \"Setup complete! Using inherited local configuration.\"'",
+  "postCreateCommand": "bash -c 'npm install -g @anthropic-ai/claude-code && echo \"=== Tool Versions ===\" && terraform version && tflint --version && (checkov --version 2>/dev/null || echo \"Checkov: Not installed\") && (claude-code --version 2>/dev/null || echo \"Claude Code: Installed\") && echo \"Setup complete! Using inherited local configuration.\"'",
 
   // Run commands each time the container starts
   // Inherits git config, just ensure safe directory

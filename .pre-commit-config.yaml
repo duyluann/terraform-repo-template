@@ -47,13 +47,6 @@ repos:
           - --args=--config=__GIT_WORKING_DIR__/.tflint.hcl
           - --args=--init
 
-      - id: terraform_tfsec
-        name: TFSec security scan
-        description: Security scanning with tfsec
-        args:
-          - --args=--config-file=__GIT_WORKING_DIR__/.tfsec.yml
-          - --args=--soft-fail
-
       - id: terraform_checkov
         name: Checkov security scan
         description: Security scanning with Checkov
