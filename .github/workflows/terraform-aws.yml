@@ -76,7 +76,7 @@ jobs:
         fi
 
     - name: Upload Plan Artifact
-      uses: actions/upload-artifact@v5
+      uses: actions/upload-artifact@v6
       if: github.event.inputs.action != 'plan'
       with:
         name: tfplan-${{ github.event.inputs.environment }}
@@ -98,7 +98,7 @@ jobs:
 
     - name: Upload Outputs
       if: github.event.inputs.action == 'apply'
-      uses: actions/upload-artifact@v5
+      uses: actions/upload-artifact@v6
       with:
         name: terraform-outputs-${{ github.event.inputs.environment }}
         path: terraform-outputs.json
