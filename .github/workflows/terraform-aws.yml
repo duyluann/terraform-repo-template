@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       environment:
-        description: 'Environment to deploy'
+        description: "Environment to deploy"
         required: true
         type: choice
         options:
@@ -12,9 +12,9 @@ on:
           - qa
           - prod
       action:
-        description: 'Action to perform'
+        description: "Action to perform"
         required: true
-        default: 'plan'
+        default: "plan"
         type: choice
         options:
           - plan
@@ -24,16 +24,16 @@ on:
 # Use GitHub Environments for approval workflows
 # Configure these in Settings > Environments
 env:
-  TF_VERSION: '1.10.5'
+  TF_VERSION: "1.10.5"
 
 jobs:
   terraform:
     name: Terraform ${{ github.event.inputs.action }} - ${{ github.event.inputs.environment }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     permissions:
       contents: read
-      id-token: write  # For AWS OIDC (if using)
+      id-token: write # For AWS OIDC (if using)
 
     # Use GitHub environment protection rules
     # This allows you to require approvals for production deployments
@@ -42,68 +42,67 @@ jobs:
       # url will be populated with the outputs URL after deployment
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v6
+      - name: Checkout code
+        uses: actions/checkout@v6
 
-    - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v3
-      with:
-        terraform_version: ${{ env.TF_VERSION }}
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TF_VERSION }}
 
-    - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v6
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ${{ secrets.AWS_REGION }}
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v6
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
 
-    - name: Terraform Init
-      run: terraform init
+      - name: Terraform Init
+        run: terraform init
 
-    - name: Terraform Format Check
-      run: terraform fmt -check -recursive
+      - name: Terraform Format Check
+        run: terraform fmt -check -recursive
 
-    - name: Terraform Validate
-      run: terraform validate
+      - name: Terraform Validate
+        run: terraform validate
 
-    - name: Terraform Plan
-      id: plan
-      run: |
-        if [ "${{ github.event.inputs.action }}" == "destroy" ]; then
-          terraform plan -destroy -var-file=environments/${{ github.event.inputs.environment }}/${{ github.event.inputs.environment }}.tfvars -out=tfplan
-        else
-          terraform plan -var-file=environments/${{ github.event.inputs.environment }}/${{ github.event.inputs.environment }}.tfvars -out=tfplan
-        fi
+      - name: Terraform Plan
+        id: plan
+        run: |
+          if [ "${{ github.event.inputs.action }}" == "destroy" ]; then
+            terraform plan -destroy -var-file=environments/${{ github.event.inputs.environment }}/${{ github.event.inputs.environment }}.tfvars -out=tfplan
+          else
+            terraform plan -var-file=environments/${{ github.event.inputs.environment }}/${{ github.event.inputs.environment }}.tfvars -out=tfplan
+          fi
 
-    - name: Upload Plan Artifact
-      uses: actions/upload-artifact@v6
-      if: github.event.inputs.action != 'plan'
-      with:
-        name: tfplan-${{ github.event.inputs.environment }}
-        path: tfplan
-        retention-days: 5
+      - name: Upload Plan Artifact
+        uses: actions/upload-artifact@v6
+        if: github.event.inputs.action != 'plan'
+        with:
+          name: tfplan-${{ github.event.inputs.environment }}
+          path: tfplan
+          retention-days: 5
 
-    - name: Terraform Apply
-      if: github.event.inputs.action == 'apply'
-      run: terraform apply -auto-approve tfplan
+      - name: Terraform Apply
+        if: github.event.inputs.action == 'apply'
+        run: terraform apply -auto-approve tfplan
 
-    - name: Terraform Destroy
-      if: github.event.inputs.action == 'destroy'
-      run: terraform apply -auto-approve tfplan
+      - name: Terraform Destroy
+        if: github.event.inputs.action == 'destroy'
+        run: terraform apply -auto-approve tfplan
 
-    - name: Terraform Output
-      if: github.event.inputs.action == 'apply'
-      id: output
-      run: terraform output -json > terraform-outputs.json
+      - name: Terraform Output
+        if: github.event.inputs.action == 'apply'
+        id: output
+        run: terraform output -json > terraform-outputs.json
 
-    - name: Upload Outputs
-      if: github.event.inputs.action == 'apply'
-      uses: actions/upload-artifact@v6
-      with:
-        name: terraform-outputs-${{ github.event.inputs.environment }}
-        path: terraform-outputs.json
-        retention-days: 30
-
+      - name: Upload Outputs
+        if: github.event.inputs.action == 'apply'
+        uses: actions/upload-artifact@v6
+        with:
+          name: terraform-outputs-${{ github.event.inputs.environment }}
+          path: terraform-outputs.json
+          retention-days: 30
 # Best practices for CI/CD workflows:
 # 1. Use environment protection rules for production
 # 2. Require manual approval for destructive actions
