@@ -1,174 +1,75 @@
 {
   "name": "Terraform Development Environment",
-  "build": {
-    "dockerfile": "Dockerfile"
-  },
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu-22.04",
 
-  // Container configuration
-  "containerUser": "tf-user",
-  "remoteUser": "tf-user",
-  "workspaceFolder": "/app",
-
-  // Features for enhanced development experience
   "features": {
-    "ghcr.io/devcontainers/features/github-cli:1": {},
-    "ghcr.io/devcontainers/features/common-utils:2": {
-      "installZsh": true,
-      "installOhMyZsh": true,
-      "upgradePackages": true
+    "ghcr.io/devcontainers/features/kubectl-helm-minikube:1": {
+      "version": "latest",
+      "helm": "latest",
+      "minikube": "none"
     },
     "ghcr.io/devcontainers/features/node:1": {
       "version": "lts"
+    },
+    "ghcr.io/devcontainers/features/github-cli:1": {},
+    "ghcr.io/devcontainers/features/git:1": {},
+    "ghcr.io/devcontainers/features/python:1": {
+      "version": "os-provided",
+      "installTools": "true"
     }
   },
 
-  // VS Code customizations
+  "mounts": [
+    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.gitconfig,target=/home/vscode/.gitconfig,type=bind,consistency=cached",
+    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.ssh,target=/home/vscode/.ssh,type=bind,consistency=cached",
+    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.aws,target=/home/vscode/.aws,type=bind,consistency=cached",
+    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.kube,target=/home/vscode/.kube,type=bind,consistency=cached"
+  ],
+
+  "postCreateCommand": "bash .devcontainer/setup.sh",
+
   "customizations": {
     "vscode": {
-      // Editor settings
       "settings": {
-        // Terminal
         "terminal.integrated.defaultProfile.linux": "bash",
-        "terminal.integrated.copyOnSelection": true,
-        "terminal.integrated.scrollback": 10000,
-
-        // Editor
         "editor.formatOnSave": true,
-        "editor.formatOnPaste": false,
         "editor.tabSize": 2,
-        "editor.insertSpaces": true,
-        "editor.rulers": [80, 120],
         "files.trimTrailingWhitespace": true,
         "files.insertFinalNewline": true,
-
-        // Terraform
         "[terraform]": {
           "editor.defaultFormatter": "hashicorp.terraform",
-          "editor.formatOnSave": true,
-          "editor.formatOnSaveMode": "file"
+          "editor.formatOnSave": true
         },
         "[terraform-vars]": {
           "editor.defaultFormatter": "hashicorp.terraform",
           "editor.formatOnSave": true
         },
         "terraform.experimentalFeatures.validateOnSave": true,
-        "terraform.languageServer.enable": true,
-        "terraform.codelens.referenceCount": true,
-
-        // Git
-        "git.autofetch": true,
-        "git.confirmSync": false,
-        "git.enableSmartCommit": true,
-        "git.postCommitCommand": "none",
-
-        // Files
-        "files.watcherExclude": {
-          "**/.git/objects/**": true,
-          "**/.git/subtree-cache/**": true,
-          "**/node_modules/*/**": true,
-          "**/.terraform/**": true,
-          "**/.terragrunt-cache/**": true
-        },
         "files.associations": {
           "*.tf": "terraform",
           "*.tfvars": "terraform-vars",
           "*.hcl": "terraform"
-        },
-
-        // Search
-        "search.exclude": {
-          "**/.terraform": true,
-          "**/.terragrunt-cache": true,
-          "**/terraform.tfstate*": true,
-          "**/.terraform.lock.hcl": false
         }
       },
-
-      // Extensions to install
       "extensions": [
-        // Terraform and IaC
-        "hashicorp.terraform",
-        "4ops.terraform",
-        "ms-azuretools.vscode-azureterraform",
-        "run-at-scale.terraform-doc-snippets",
-        // Git and version control
-        "eamodio.gitlens",
-        "mhutchie.git-graph",
-        "donjayamanne.githistory",
-        // Documentation and markdown
-        "yzhang.markdown-all-in-one",
-        "davidanson.vscode-markdownlint",
-        // Code quality and formatting
         "editorconfig.editorconfig",
         "esbenp.prettier-vscode",
+        "eamodio.gitlens",
         "streetsidesoftware.code-spell-checker",
-        "usernamehw.errorlens",
-        "aaron-bond.better-comments",
-        "oderwat.indent-rainbow",
+        "4ops.terraform",
+        "hashicorp.terraform",
         "shardulm94.trailing-spaces",
-        // Cloud provider support
-        "ms-vscode.vscode-node-azure-pack",
-        // Scripting and automation
-        "timonwong.shellcheck",
-        "ms-python.python",
-        "ms-python.vscode-pylance",
-        // YAML support
-        "redhat.vscode-yaml"
+        "raunofreiberg.vesper",
+        "miguelsolorio.symbols"
       ]
     }
   },
 
-  // Mount host directories and files to inherit local configuration
-  // Note: All source paths must exist on host or container startup will fail
-  // Comment out any optional mounts if the source doesn't exist on your system
-  "mounts": [
-    "source=${localWorkspaceFolder},target=/app,type=bind",
-    // Git configuration
-    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.gitconfig,target=/home/tf-user/.gitconfig,type=bind,consistency=cached",
-    // SSH keys (read-only for security)
-    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.ssh,target=/home/tf-user/.ssh,type=bind,readonly",
-    // Multi-cloud credentials and configuration
-    // AWS credentials and config
-    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.aws,target=/home/tf-user/.aws,type=bind,consistency=cached",
-    // Azure credentials and config
-    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.azure,target=/home/tf-user/.azure,type=bind,consistency=cached",
-    // GCP credentials and config
-    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.config/gcloud,target=/home/tf-user/.config/gcloud,type=bind,consistency=cached",
-    // Terraform configuration and plugin cache
-    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.terraform.d,target=/home/tf-user/.terraform.d,type=bind,consistency=cached",
-    // Optional: Terraform CLI configuration (uncomment if you have ~/.terraformrc)
-    // "source=${localEnv:HOME}${localEnv:USERPROFILE}/.terraformrc,target=/home/tf-user/.terraformrc,type=bind,consistency=cached",
-    // Pre-commit cache for faster hook execution
-    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.cache/pre-commit,target=/home/tf-user/.cache/pre-commit,type=bind,consistency=cached"
-    // Optional: Claude Code configuration and history (uncomment if you have ~/.claude)
-    // "source=${localEnv:HOME}${localEnv:USERPROFILE}/.claude,target=/home/tf-user/.claude,type=bind,consistency=cached"
-  ],
-
-  // Environment variables - inherit from host where possible
   "containerEnv": {
-    "EDITOR": "code --wait",
-    "VISUAL": "code --wait"
+    "AWS_ACCESS_KEY_ID": "${localEnv:AWS_ACCESS_KEY_ID}",
+    "AWS_SECRET_ACCESS_KEY": "${localEnv:AWS_SECRET_ACCESS_KEY}",
+    "AWS_REGION": "${localEnv:AWS_REGION:ap-southeast-1}"
   },
 
-  // Port forwarding (if needed for local web UIs)
-  "forwardPorts": [],
-
-  // Run commands after creating the container
-  // Inherits local config via mounts, minimal setup required
-  "postCreateCommand": "bash -c 'npm install -g @anthropic-ai/claude-code && echo \"=== Tool Versions ===\" && terraform version && tflint --version && (checkov --version 2>/dev/null || echo \"Checkov: Not installed\") && (claude-code --version 2>/dev/null || echo \"Claude Code: Installed\") && echo \"Setup complete! Using inherited local configuration.\"'",
-
-  // Run commands each time the container starts
-  // Use enhanced post-start script with multi-cloud support
-  "postStartCommand": "bash /app/.devcontainer/post-start.sh",
-
-  // Lifecycle scripts
-  "onCreateCommand": "echo 'Container created! Installing dependencies...'",
-  "updateContentCommand": "echo 'Updating container content...'",
-
-  // Increase resource limits if needed
-  "hostRequirements": {
-    "cpus": 2,
-    "memory": "4gb",
-    "storage": "32gb"
-  }
+  "remoteUser": "vscode"
 }
