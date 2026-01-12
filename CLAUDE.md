@@ -142,10 +142,11 @@ Follow Conventional Commits format (enforced by semantic-release):
 
 - `feat:` - Minor version bump (new feature)
 - `fix:` - Patch version bump (bug fix)
+- `perf:` - Patch version bump (performance improvement)
+- `refactor:` - Patch version bump (code restructuring)
+- `docs:` - No version bump (documentation changes)
 - `chore:` - No version bump (maintenance)
-- `docs:` - Documentation changes
-- `refactor:` - Code restructuring
-- `test:` - Test additions/updates
+- `test:` - No version bump (test additions/updates)
 - `BREAKING CHANGE:` in commit body - Major version bump
 
 **Commit Message Format:**
