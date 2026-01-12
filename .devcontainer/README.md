@@ -1,166 +1,113 @@
 # Development Container Configuration
 
-This directory contains the development container configuration for this Terraform project. The devcontainer provides a consistent, reproducible development environment with all necessary tools pre-installed and multi-cloud support for AWS, Azure, and GCP.
+> **🚀 Simplified Development Environment**
+>
+> This devcontainer provides a streamlined setup using standard DevContainer features:
+> - ✅ **Fast builds** - Uses official base image and features
+> - ✅ **Simple configuration** - No custom Dockerfile needed
+> - ✅ **Standard tools** - Terraform, TFLint, AWS CLI, kubectl, Node.js
+> - ✅ **Works everywhere** - Local VSCode and GitHub Codespaces
+>
+> **Key Features:**
+> - Uses official Microsoft base image (ubuntu-22.04)
+> - All tools installed via DevContainer features
+> - Automatic credential mounting from host
+> - Minimal setup script for additional tools
+
+This directory contains the development container configuration for this Terraform project. The devcontainer provides a consistent, reproducible development environment with all necessary tools pre-installed.
 
 ## What's Included
 
-### Core Tools
-- **Terraform**: Infrastructure as Code tool
-- **TFLint**: Terraform linter with multi-cloud rulesets
-- **Checkov**: Policy-as-code security scanner (if available in base image)
-- **Pre-commit**: Git hook framework
+### Core Tools (via DevContainer Features)
+- **Terraform & TFLint**: Infrastructure as Code tool and linter
+- **AWS CLI**: Amazon Web Services command-line interface
+- **kubectl & Helm**: Kubernetes CLI tools
+- **Node.js LTS**: JavaScript runtime and npm
 - **GitHub CLI**: GitHub command-line tool
-- **Claude Code**: AI-powered code assistant
+- **Git**: Version control
+- **Python 3.11**: For pre-commit and checkov
 
-### Multi-Cloud CLI Tools
-- **AWS CLI v2**: Amazon Web Services command-line interface
-- **Azure CLI**: Microsoft Azure command-line interface
-- **Google Cloud SDK**: Google Cloud Platform CLI and tools
-
-### Authentication Helpers
-- **aws-auth.sh**: AWS authentication helper (SSO, profiles, regions)
-- **azure-auth.sh**: Azure authentication helper (interactive, service principal)
-- **gcp-auth.sh**: GCP authentication helper (user, service account)
-
-### Development Features
-- **Oh My Zsh**: Enhanced shell experience
-- **Git**: Version control with GPG signing support
-- **SSH**: Secure shell access with host key sharing
-- **EditorConfig**: Consistent coding styles
+### Additional Tools (installed via setup script)
+- **Kustomize**: Kubernetes manifest customization tool
+- **Pre-commit**: Git hook framework
+- **Checkov**: Security and compliance scanner
+- **Claude Code**: AI-powered code assistant (optional)
 
 ### VS Code Extensions
-
-**Terraform & IaC**:
-- HashiCorp Terraform - Official Terraform extension
-- 4ops Terraform - Additional Terraform tooling
-- Azure Terraform - Azure-specific Terraform support
-- Terraform Doc Snippets - Documentation generation
-
-**Cloud Providers**:
-- Azure Tools Pack - Complete Azure development toolkit
-- Python & Pylance - For cloud automation scripts
-
-**Git & Version Control**:
-- GitLens - Enhanced Git capabilities
-- Git Graph - Git history visualization
-- Git History - Additional Git history views
-
-**Documentation**:
-- Markdown All in One - Markdown authoring
-- Markdown Lint - Markdown best practices
-- YAML - YAML language support
-
-**Code Quality**:
-- EditorConfig - Maintain consistent coding styles
-- Prettier - Code formatter
-- Code Spell Checker - Spelling verification
-- ShellCheck - Shell script linting
-
-**Utilities**:
-- Error Lens - Inline error highlighting
-- Better Comments - Enhanced comment styling
-- Indent Rainbow - Indentation visualization
-- Trailing Spaces - Whitespace management
+- **HashiCorp Terraform**: Official Terraform extension
+- **Kubernetes Tools**: Kubernetes development support
+- **GitLens**: Enhanced Git capabilities
+- **YAML**: YAML language support
+- **EditorConfig**: Consistent coding styles
+- **GitHub Actions**: GitHub workflow support
 
 ## Prerequisites
 
-### Required
 - [Docker Desktop](https://www.docker.com/products/docker-desktop) or [Docker Engine](https://docs.docker.com/engine/install/)
 - [Visual Studio Code](https://code.visualstudio.com/)
 - [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
-
-### Recommended
-- At least 4GB RAM allocated to Docker
-- At least 32GB disk space for containers and cache
+- At least 2GB RAM allocated to Docker
+- At least 20GB disk space
 
 ## Quick Start
 
 ### 1. Open in Container
 
-**Method 1: Command Palette**
-1. Open VS Code
-2. Press `F1` or `Ctrl+Shift+P` (Windows/Linux) / `Cmd+Shift+P` (Mac)
-3. Type "Dev Containers: Reopen in Container"
-4. Wait for container to build and start
+1. Open VS Code in this project directory
+2. Press `F1` and select "Dev Containers: Reopen in Container"
+3. Wait for the container to build (first time: ~3-5 minutes)
 
-**Method 2: Notification**
-1. Open the project in VS Code
-2. Click "Reopen in Container" when prompted
+The setup script will automatically:
+- Install pre-commit and checkov
+- Configure git safe directory
+- Install pre-commit hooks
+- Initialize TFLint plugins
+- Display tool versions
 
-**Method 3: Remote Explorer**
-1. Click the Remote Explorer icon in the sidebar
-2. Right-click the project folder
-3. Select "Open Folder in Container"
-
-### 2. First-Time Setup
-
-When the container starts for the first time:
-1. Multi-cloud CLI tools will be installed
-2. Dependencies will be verified
-3. Pre-commit hooks will be installed
-4. TFLint plugins will be downloaded
-5. Tool versions will be displayed
-
-This process takes 3-5 minutes on first run due to cloud CLI installations.
-
-### 3. Verify Installation
+### 2. Verify Installation
 
 Open a terminal in VS Code and run:
 
 ```bash
-# Check Terraform version
 terraform version
-
-# Check TFLint
 tflint --version
-
-# Check pre-commit
 pre-commit --version
-
-# Check multi-cloud CLIs
+checkov --version
 aws --version
-az version
-gcloud --version
-
-# Check GitHub CLI
-gh --version
-
-# Check Claude Code
-claude-code --version
+kubectl version --client
+kustomize version
+helm version
 ```
 
 ## Configuration
 
-### Mounts
+### Automatic Mounts
 
-The devcontainer automatically mounts:
-- **Workspace**: Your project directory to `/app`
-- **SSH Keys**: `~/.ssh` (read-only) for Git operations
+The devcontainer automatically mounts from your host machine:
 - **Git Config**: `~/.gitconfig` for Git settings
-- **Multi-Cloud Credentials**:
-  - **AWS**: `~/.aws` for AWS credentials and config
-  - **Azure**: `~/.azure` for Azure credentials
-  - **GCP**: `~/.config/gcloud` for Google Cloud config
-- **Terraform Cache**: `~/.terraform.d` for plugin cache
-- **Pre-commit Cache**: `~/.cache/pre-commit` for faster hook execution
+- **SSH Keys**: `~/.ssh` for Git operations
+- **AWS Credentials**: `~/.aws` for AWS authentication
+- **Kubernetes Config**: `~/.kube` for kubectl access
 
 ### Environment Variables
 
-Pre-configured environment variables:
-- `TF_PLUGIN_CACHE_DIR`: Terraform plugin cache location
-- `TF_CLI_CONFIG_FILE`: Terraform CLI configuration
-- `EDITOR`: Default editor for Git and other tools
-- `VISUAL`: Visual editor preference
+AWS credentials are automatically available from:
+- Host environment variables (local development)
+- GitHub Codespaces secrets (cloud development)
+
+Set these in your environment:
+- `AWS_ACCESS_KEY_ID`
+- `AWS_SECRET_ACCESS_KEY`
+- `AWS_REGION` (defaults to ap-southeast-1)
 
 ### VS Code Settings
 
-Configured for Terraform development:
+Pre-configured for Terraform development:
 - Auto-formatting on save
-- Terraform validation on save
+- Terraform validation enabled
 - 2-space indentation
 - Trailing whitespace removal
-- Final newline insertion
-- Code rulers at 80 and 120 characters
+- File associations for .tf, .tfvars, .hcl
 
 ## Working with the Container
 
@@ -202,77 +149,58 @@ pre-commit autoupdate
 # TFLint
 tflint --config=.tflint.hcl
 
-# Checkov (if installed)
+# Checkov
 checkov --config-file=.checkov.yml
 ```
 
-### Multi-Cloud Authentication
-
-The container includes helper scripts for easy authentication with each cloud provider.
-
-#### AWS Authentication
+### Working with Kubernetes
 
 ```bash
-# Basic AWS authentication (uses mounted credentials)
-.devcontainer/scripts/aws-auth.sh
+# Configure kubectl for EKS cluster
+aws eks update-kubeconfig --region ap-southeast-1 --name ops4life-dev-cluster
 
-# Use specific profile
-.devcontainer/scripts/aws-auth.sh --profile my-profile
+# Verify cluster access
+kubectl get nodes
 
-# Use specific region
-.devcontainer/scripts/aws-auth.sh --region us-west-2
+# Build Kustomize manifests
+kustomize build k8s/apps/sample-nginx/overlays/dev/
 
-# Use AWS SSO
-.devcontainer/scripts/aws-auth.sh --sso
+# Apply manifests with Kustomize
+kubectl apply -k k8s/apps/sample-nginx/overlays/dev/
 
-# Combined options
-.devcontainer/scripts/aws-auth.sh --profile prod --region us-east-1 --sso
+# Watch deployment progress
+kubectl rollout status deployment/nginx -n dev
 
+# View logs
+kubectl logs -n dev -l app=sample-nginx --tail=100 -f
+
+# Working with Helm
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm repo update
+helm search repo nginx
+helm install my-release bitnami/nginx
+```
+
+### AWS Authentication
+
+The container uses your mounted AWS credentials from `~/.aws`.
+
+```bash
 # Test AWS connection
 aws sts get-caller-identity
-```
 
-#### Azure Authentication
+# Use specific profile
+export AWS_PROFILE=my-profile
 
-```bash
-# Interactive login
-.devcontainer/scripts/azure-auth.sh
-
-# Use specific subscription
-.devcontainer/scripts/azure-auth.sh --subscription YOUR_SUBSCRIPTION_ID
-
-# Service principal authentication
-.devcontainer/scripts/azure-auth.sh --service-principal \
-  --client-id YOUR_CLIENT_ID \
-  --client-secret YOUR_SECRET \
-  --tenant YOUR_TENANT_ID
-
-# Verify Azure authentication
-az account show
-```
-
-#### GCP Authentication
-
-```bash
-# Interactive login
-.devcontainer/scripts/gcp-auth.sh
-
-# Use specific project
-.devcontainer/scripts/gcp-auth.sh --project YOUR_PROJECT_ID
-
-# Service account authentication
-.devcontainer/scripts/gcp-auth.sh --credentials /path/to/service-account-key.json
-
-# Verify GCP authentication
-gcloud auth list
-gcloud config list
+# Use specific region
+export AWS_REGION=us-west-2
 ```
 
 ## Customization
 
-### Adding Extensions
+### Adding VS Code Extensions
 
-Edit `.devcontainer/devcontainer.json`:
+Edit `.devcontainer/devcontainer.json` and add to the extensions array:
 
 ```json
 "extensions": [
@@ -280,9 +208,9 @@ Edit `.devcontainer/devcontainer.json`:
 ]
 ```
 
-### Adding Features
+### Adding DevContainer Features
 
-Add devcontainer features:
+Add features to `.devcontainer/devcontainer.json`:
 
 ```json
 "features": {
@@ -290,32 +218,34 @@ Add devcontainer features:
 }
 ```
 
-Browse available features: https://containers.dev/features
+Browse available features at https://containers.dev/features
 
-### Changing Base Image
+### Adding Tools
 
-To use a different base image, update:
+Edit `.devcontainer/setup.sh` to add custom tools:
 
-```json
-"image": "your-custom-image:tag"
-```
+```bash
+# Install additional Python packages
+pip3 install --user your-package
 
-Or build from a Dockerfile:
-
-```json
-"build": {
-  "dockerfile": "Dockerfile"
-}
+# Install additional npm packages
+npm install -g your-package
 ```
 
 ## Troubleshooting
 
 ### Container Won't Start
 
-1. Check Docker is running: `docker ps`
-2. Check disk space: `docker system df`
-3. Clean up: `docker system prune -a`
-4. Rebuild container: `Dev Containers: Rebuild Container`
+```bash
+# Check Docker is running
+docker ps
+
+# Clean up old containers and images
+docker system prune -a
+
+# Rebuild container
+# Press F1 → "Dev Containers: Rebuild Container"
+```
 
 ### Pre-commit Hooks Failing
 
@@ -323,88 +253,38 @@ Or build from a Dockerfile:
 # Reinstall hooks
 pre-commit clean
 pre-commit install --install-hooks
-
-# Update hooks
-pre-commit autoupdate
 ```
 
-### TFLint AWS Plugin Not Found
+### TFLint Plugins Not Found
 
 ```bash
-# Manually initialize TFLint
+# Initialize TFLint plugins
 tflint --init --config=.tflint.hcl
 ```
 
-### Permission Issues
+### Permission Issues with Mounted Files
 
 ```bash
-# Check current user
-whoami  # Should be tf-user
+# Fix SSH key permissions
+chmod 600 ~/.ssh/id_* 2>/dev/null
 
-# Fix permissions if needed
-sudo chown -R tf-user:tf-user /app
+# Current user should be 'vscode'
+whoami
 ```
-
-### Git Operations Failing
-
-```bash
-# Verify Git configuration
-git config --list
-
-# Set safe directory if needed
-git config --global --add safe.directory /app
-```
-
-## Performance Optimization
-
-### Terraform Plugin Cache
-
-The container uses a persistent plugin cache to speed up `terraform init`:
-
-```bash
-# Location
-echo $TF_PLUGIN_CACHE_DIR
-
-# Clear cache if needed
-rm -rf ~/.terraform.d/plugin-cache/*
-```
-
-### Docker Performance
-
-**macOS**:
-- Use VirtioFS for file sharing (Docker Desktop settings)
-- Allocate sufficient resources (4GB+ RAM, 4+ CPUs)
-
-**Windows**:
-- Use WSL 2 backend (Docker Desktop settings)
-- Store project files in WSL filesystem, not Windows
-
-**Linux**:
-- Native performance, no special configuration needed
 
 ## Best Practices
 
-1. **Commit from Container**: Always commit code from within the devcontainer to ensure hooks run
-2. **Don't Modify Mounts**: Avoid changing mounted directories (SSH, GPG keys)
-3. **Use Version Control**: Commit devcontainer changes to share with team
-4. **Keep Updated**: Regularly rebuild container to get latest tools
-5. **Resource Limits**: Ensure Docker has enough resources allocated
+1. **Commit from Container**: Always commit from within the devcontainer to ensure hooks run
+2. **Rebuild Regularly**: Rebuild container periodically to get latest tool versions
+3. **Resource Allocation**: Ensure Docker has at least 2GB RAM allocated
 
 ## Additional Resources
 
 - [VS Code Dev Containers Documentation](https://code.visualstudio.com/docs/devcontainers/containers)
-- [Dev Container Specification](https://containers.dev/)
+- [Dev Container Features](https://containers.dev/features)
 - [Terraform Documentation](https://www.terraform.io/docs)
 - [Pre-commit Documentation](https://pre-commit.com/)
 
-## Support
-
-For issues with:
-- **Devcontainer**: Check VS Code Dev Containers documentation
-- **Terraform**: Check Terraform documentation or project CLAUDE.md
-- **Pre-commit**: Check `.pre-commit-config.yaml` and pre-commit docs
-- **Project-specific**: See README.md and CLAUDE.md in repository root
-
 ---
 
-**Note**: The devcontainer configuration is version controlled and shared across the team to ensure consistent development environments.
+**Note**: This devcontainer is version controlled and provides a consistent development environment for the entire team.
