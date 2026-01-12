@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.14.1](https://github.com/duyluann/terraform-repo-template/compare/v1.14.0...v1.14.1) (2026-01-12)
+
+
+### Bug Fixes
+
+* **release:** configure semantic-release to trigger releases for refactor commits ([#130](https://github.com/duyluann/terraform-repo-template/issues/130)) ([77b7db9](https://github.com/duyluann/terraform-repo-template/commit/77b7db9cb86fed43a4513b9c5b5c287749a1dc25))
+
 # [1.14.0](https://github.com/duyluann/terraform-repo-template/compare/v1.13.1...v1.14.0) (2025-11-18)
 
 
