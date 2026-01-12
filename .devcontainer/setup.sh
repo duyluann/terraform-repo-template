@@ -28,11 +28,35 @@ if ! command -v tflint &> /dev/null; then
   echo "✅ TFLint ${TFLINT_VERSION} installed successfully"
 fi
 
+# Install terraform-docs
+if ! command -v terraform-docs &> /dev/null; then
+  echo "📦 Installing terraform-docs..."
+  TERRAFORM_DOCS_VERSION="0.19.0"
+  curl -sL "https://github.com/terraform-docs/terraform-docs/releases/download/v${TERRAFORM_DOCS_VERSION}/terraform-docs-v${TERRAFORM_DOCS_VERSION}-linux-amd64.tar.gz" -o /tmp/terraform-docs.tar.gz
+  tar -xzf /tmp/terraform-docs.tar.gz -C /tmp
+  sudo mv /tmp/terraform-docs /usr/local/bin/
+  sudo chmod +x /usr/local/bin/terraform-docs
+  rm -f /tmp/terraform-docs.tar.gz
+  echo "✅ terraform-docs ${TERRAFORM_DOCS_VERSION} installed successfully"
+fi
+
 # Install pre-commit
 pip3 install --user pre-commit
 
 # Install checkov for security scanning
 pip3 install --user checkov
+
+# Install gitleaks for secret detection
+if ! command -v gitleaks &> /dev/null; then
+  echo "📦 Installing gitleaks..."
+  GITLEAKS_VERSION="8.30.0"
+  curl -sL "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz" -o /tmp/gitleaks.tar.gz
+  tar -xzf /tmp/gitleaks.tar.gz -C /tmp
+  sudo mv /tmp/gitleaks /usr/local/bin/
+  sudo chmod +x /usr/local/bin/gitleaks
+  rm -f /tmp/gitleaks.tar.gz
+  echo "✅ gitleaks ${GITLEAKS_VERSION} installed successfully"
+fi
 
 # Install Claude Code CLI (optional)
 npm install -g @anthropic-ai/claude-code 2>/dev/null || echo "⚠️  Claude Code installation skipped"
@@ -91,8 +115,10 @@ echo ""
 echo "=== ✅ Installed Tools ==="
 terraform version | head -n 1
 tflint --version
+echo "terraform-docs: $(terraform-docs --version 2>/dev/null | head -n 1)"
 echo "Pre-commit: $(pre-commit --version)"
 echo "Checkov: $(checkov --version 2>/dev/null | head -n 1)"
+echo "Gitleaks: $(gitleaks version 2>/dev/null | head -n 1)"
 aws --version
 kubectl version --client --short 2>/dev/null | head -n 1 || echo "kubectl: $(kubectl version --client -o json 2>/dev/null | jq -r .clientVersion.gitVersion)"
 helm version --short 2>/dev/null || echo "Helm: $(helm version --template='{{.Version}}' 2>/dev/null)"
