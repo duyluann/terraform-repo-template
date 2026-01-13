@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+# [1.15.0](https://github.com/duyluann/terraform-repo-template/compare/v1.14.1...v1.15.0) (2026-01-13)
+
+
+### Features
+
+* **devcontainer:** add terraform-docs and gitleaks to setup.sh ([#132](https://github.com/duyluann/terraform-repo-template/issues/132)) ([b031247](https://github.com/duyluann/terraform-repo-template/commit/b031247cd0b2b1ad5bbb570a9822ddc4b48374f6))
+* **workflows:** update runners to ubuntu-24.04 and improve formatting ([#131](https://github.com/duyluann/terraform-repo-template/issues/131)) ([165dbd8](https://github.com/duyluann/terraform-repo-template/commit/165dbd8e5141173a2f6cd2f31709f297bb22cd1e))
+
 ## [1.14.1](https://github.com/duyluann/terraform-repo-template/compare/v1.14.0...v1.14.1) (2026-01-12)
 
 
