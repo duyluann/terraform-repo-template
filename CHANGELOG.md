@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [1.16.0](https://github.com/duyluann/terraform-repo-template/compare/v1.15.0...v1.16.0) (2026-01-13)
+
+
+### Features
+
+* **devcontainer:** add missing pre-commit tools and improve terminal UX ([#133](https://github.com/duyluann/terraform-repo-template/issues/133)) ([c9270aa](https://github.com/duyluann/terraform-repo-template/commit/c9270aad5a0411635417e0b453e20796b75903a2))
+
 # [1.15.0](https://github.com/duyluann/terraform-repo-template/compare/v1.14.1...v1.15.0) (2026-01-13)
 
 
