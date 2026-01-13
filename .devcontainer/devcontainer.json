@@ -32,6 +32,8 @@
     "vscode": {
       "settings": {
         "terminal.integrated.defaultProfile.linux": "bash",
+        "terminal.integrated.copyOnSelection": true,
+        "terminal.integrated.rightClickBehavior": "paste",
         "editor.formatOnSave": true,
         "editor.tabSize": 2,
         "files.trimTrailingWhitespace": true,
