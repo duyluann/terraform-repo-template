@@ -6,6 +6,7 @@ variable "region" {
 variable "env" {
   description = "The environment to deploy the resources"
   type        = string
+  default     = "dev"
 }
 
 variable "prefix" {
