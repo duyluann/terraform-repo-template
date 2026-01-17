@@ -1,3 +1,6 @@
+> [!IMPORTANT]
+> This repository has been migrated to [ops4life/terraform-repo-template](https://github.com/ops4life/terraform-repo-template). Please use the new repository for all future development and contributions. This repository is now archived.
+
 # 🚧 Terraform Project Template
 
 This repository provides a structured template for Terraform projects, enabling consistent and scalable infrastructure deployments. The template has best practices, CI/CD integration, and environment-specific configurations to streamline infrastructure management.
